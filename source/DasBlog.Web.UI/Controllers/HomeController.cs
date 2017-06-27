@@ -31,12 +31,15 @@ namespace DasBlog.Web.UI.Controllers
         }
 
         // blogpost/comment
+        // permalink
+        // date
         // category
         // archive/category
         // archive/month
         // email
         // search
         // timeline ????
+        // microsummary ????
         // sitemap
         // rss
         // atom

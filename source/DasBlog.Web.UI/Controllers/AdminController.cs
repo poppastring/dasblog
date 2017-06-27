@@ -18,14 +18,13 @@ namespace DasBlog.Web.UI.Controllers
         // addentry
         // usersettings
         // activity /event /referrers
-
         // configuration
         // contentfilters
         // blogroll
         // navigatorlinks
         // userclickthroughs ???
-        // userview
-
+        // userview 
+        // comment /approve /delete (deleteitem.ashx, approveitem.ashx)
 
         // GET: Admin/Details/5
         public ActionResult Details(int id)
