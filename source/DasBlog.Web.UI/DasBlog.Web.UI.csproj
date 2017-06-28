@@ -25,5 +25,9 @@
   <ItemGroup>
     <Folder Include="Views\Admin\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
+    <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
+  </ItemGroup>
 
 </Project>

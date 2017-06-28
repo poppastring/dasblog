@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using newtelligence.DasBlog.Runtime;
+using newtelligence.DasBlog.Web.Core;
 
 namespace DasBlog.Web.UI.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+            
+        }
+
         // Main Page
         public IActionResult Index()
         {
@@ -24,6 +31,11 @@ namespace DasBlog.Web.UI.Controllers
         // Individual Page + Comment View
         public IActionResult BlogPost(string article)
         {
+            // var loggingService = LoggingDataServiceFactory.GetService(SiteUtilities.MapPath("~/logs/"));
+            // var dataService = BlogDataServiceFactory.GetService(SiteUtilities.MapPath("~/content/"), loggingService);
+
+            // Entry entry = dataService.GetEntry("WeblogEntryId");
+
             ViewData["Message"] = article;
 
             //Create views for postname???
@@ -32,7 +44,7 @@ namespace DasBlog.Web.UI.Controllers
 
         // blogpost/comment
         // permalink
-        // date
+        // date (get entries for month/date/etc.)
         // category
         // archive/category
         // archive/month
@@ -73,3 +85,4 @@ namespace DasBlog.Web.UI.Controllers
         }
     }
 }
+
