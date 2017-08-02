@@ -1,69 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using DasBlog.Web.UI.Models;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
+using DasBlog.Web.UI.Models.BlogViewModels;
 
 namespace DasBlog.Web.UI.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private IBlogDataService _dataService;
+        private ILoggingDataService _loggingDataService;
+
+        public HomeController(IBlogDataService dataService, ILoggingDataService loggingDataService)
         {
-            
+            _dataService = dataService;
+            _loggingDataService = loggingDataService;
         }
 
-        // Main Page
         public IActionResult Index()
         {
+            var loggingService = LoggingDataServiceFactory.GetService("D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\logs\\");
+            var dataService = BlogDataServiceFactory.GetService("D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\content\\", loggingService);
+
+            // Get post by GUID
+            var entryGuid = dataService.GetEntry("bbecae4b-e3a3-47a2-b6a6-b4cc405f8663");
+
+            // Get post by title
+            // ~/CommentView.aspx?title=MoralMachineTheProblemIsChoice
+            var entryComment = dataService.GetEntry("GeneralPatternsusedtoDetectaLeak");
+
+
+            // Get post by Date and title
+            // ~/Permalink.aspx?title=MoralMachineTheProblemIsChoice
+            DayEntry dayEntry = dataService.GetDayEntry(new DateTime(2016, 10, 13));
+            var entryPermalink = dayEntry.GetEntryByTitle("GeneralPatternsusedtoDetectaLeak");            
+
+            // Get all entries Archives
+            var entries = dataService.GetEntries(false);
+
+            // Month View
+            string languageFilter = Request.Headers["Accept-Language"];
+            var daysWithEntries = dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
+
+            //Initial page content ?????
+
             return View();
         }
-
-        public IActionResult Page(int page)
+		
+        [Route("page/{index:int}")]
+        public IActionResult Page(int index)
         {
-            // 0 = main page
+            ViewData["Message"] = string.Format("Page {0}.", index);
 
-            return View();
+            ListPostsViewModel list = new ListPostsViewModel();
+            list.Posts = new List<PostViewModel>()
+                {
+                    new PostViewModel
+                    {
+                        Author = "Mark Downie",
+                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Categories = "Categories",
+                        Comment = "Comment",
+                        Description = "Description",
+                        Email = "mdownie@poppastring.com",
+                        Guid = "123-134-2341234-1324-123412",
+                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        PermaLink = "http://www.poppastring.com/blog/blog-title",
+                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
+                        Text = "text",
+                        Title = "Blog Title"
+                    },
+                    new PostViewModel
+                    {
+                        Author = "Mark Downie",
+                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Categories = "Categories",
+                        Comment = "Comment",
+                        Description = "Description",
+                        Email = "mdownie@poppastring.com",
+                        Guid = "123-134-2341234-1324-123412",
+                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        PermaLink = "http://www.poppastring.com/blog/blog-title",
+                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
+                        Text = "text",
+                        Title = "Blog Title"
+                    },
+                    new PostViewModel
+                    {
+                        Author = "Mark Downie",
+                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Categories = "Categories",
+                        Comment = "Comment",
+                        Description = "Description",
+                        Email = "mdownie@poppastring.com",
+                        Guid = "123-134-2341234-1324-123412",
+                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        PermaLink = "http://www.poppastring.com/blog/blog-title",
+                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
+                        Text = "text",
+                        Title = "Blog Title"
+                    }
+                };
+
+            return View(list);
         }
-
-        // Individual Page + Comment View
-        public IActionResult BlogPost(string article)
+		
+        [Route("comment/{index:guid}")]
+        public IActionResult Comment(Guid Id)
         {
-            // var loggingService = LoggingDataServiceFactory.GetService(SiteUtilities.MapPath("~/logs/"));
-            // var dataService = BlogDataServiceFactory.GetService(SiteUtilities.MapPath("~/content/"), loggingService);
-
-            // Entry entry = dataService.GetEntry("WeblogEntryId");
-
-            ViewData["Message"] = article;
-
-            //Create views for postname???
             return View();
         }
-
-        // blogpost/comment
-        // permalink
-        // date (get entries for month/date/etc.)
-        // category
-        // archive/category
-        // archive/month
-        // email
-        // search
-        // timeline ????
-        // microsummary ????
-        // sitemap
-        // rss
-        // atom
-
-
-
-        public IActionResult Login()
-        {
-            ViewData["Message"] = "Your application login page.";
-
-            return View();
-        }
+		
+		
 
         public IActionResult About()
         {
@@ -81,7 +134,7 @@ namespace DasBlog.Web.UI.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

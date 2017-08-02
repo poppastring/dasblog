@@ -1,0 +1,22 @@
+@model ListPostsViewModel
+
+@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"].</h2>
+
+<div id="content">
+
+    @if (Model.Posts.Count > 0)
+    {
+        foreach (var post in Model.Posts)
+        {
+            @Html.Partial("_PostPartial", post)
+        }
+    }
+    else
+    {
+        <p>No posts found!</p>
+    }
+
+</div>

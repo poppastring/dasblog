@@ -255,9 +255,10 @@ namespace newtelligence.DasBlog.Runtime
         {
             if (String.IsNullOrEmpty(entryId))
             {
-                HttpContext.Current.Trace.Write("entryId is empty!");
+                // TODO: Web Core compatability issues ???
+                // HttpContext.Current.Trace.Write("entryId is empty!");
             }
-            
+
 
             DateTime foundDate = EntryIdCache.GetInstance(data).GetDateFromEntryId(entryId);
             if (foundDate == DateTime.MinValue)
@@ -288,6 +289,7 @@ namespace newtelligence.DasBlog.Runtime
         {
             DayEntry result = null;
 
+            // TODO: Web Core compatability issues ???
             //System.Diagnostics.Debug.Write("Loading DayEntry for " + date.ToShortDateString());
 
             if (data.Days.ContainsKey(date))

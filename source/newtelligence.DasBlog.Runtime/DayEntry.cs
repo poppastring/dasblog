@@ -233,9 +233,10 @@ namespace newtelligence.DasBlog.Runtime
 			}
 			else
 			{
-				System.Security.Principal.WindowsImpersonationContext wi = Impersonation.Impersonate();
+                // TODO: Web Core compatability issues ???
+                // System.Security.Principal.WindowsImpersonationContext wi = Impersonation.Impersonate();
 
-				FileStream fileStream = FileUtils.OpenForWrite(fullPath);
+                FileStream fileStream = FileUtils.OpenForWrite(fullPath);
 
 				if ( fileStream != null )
 				{
@@ -257,7 +258,7 @@ namespace newtelligence.DasBlog.Runtime
 					}
 				}
 
-				wi.Undo();
+				// wi.Undo();
 			}
 		}
 
