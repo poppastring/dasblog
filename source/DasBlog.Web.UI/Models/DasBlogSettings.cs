@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebCoreApp.Models
+namespace DasBlog.Web.UI.Models
 {
-    public class DasBlog
+    public class DasBlogSettings
     {
         public string Theme { get; set; }
+        public string Logs { get; set; }
+        public string Content { get; set; }
     }
 }

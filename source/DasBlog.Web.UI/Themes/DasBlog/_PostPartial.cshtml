@@ -1,13 +1,14 @@
 ﻿@model PostViewModel
 
 <div class="post">
+    <h2>@Model.Title</h2>
     <div class="post-meta">
-        @Model.Title
+        @Model.Author
     </div>
     <div class="post-body">
-        @Model.Body
+        @Html.Raw(@Model.Content)
     </div>
     <div class="post-footer">
-        @Model.Comment
+        @Model.Categories
     </div>
 </div>

@@ -7,17 +7,14 @@ namespace DasBlog.Web.UI.Models.BlogViewModels
 {
     public class PostViewModel
     {
-        public string Email { get; set; }
-        public string Text { get; set; }
-        public string Body { get; set; }
+        public string Content { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
-        public string PreviousPost { get; set; }
-        public string NextPost { get; set; }
         public string PermaLink { get; set; }
-        public string Guid { get; set; }
-        public string Comment { get; set; }
-        public string Categories { get; set; }  
+        public string EntryId { get; set; }
+        public string Categories { get; set; }
+        public bool AllowComments { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

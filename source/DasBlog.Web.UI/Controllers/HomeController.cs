@@ -8,6 +8,7 @@ using DasBlog.Web.UI.Models;
 using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using DasBlog.Web.UI.Models.BlogViewModels;
+using Microsoft.Extensions.Options;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -15,37 +16,33 @@ namespace DasBlog.Web.UI.Controllers
     {
         private IBlogDataService _dataService;
         private ILoggingDataService _loggingDataService;
+        private readonly DasBlogSettings _dasBlogsettings;
 
-        public HomeController(IBlogDataService dataService, ILoggingDataService loggingDataService)
+        public HomeController(IOptions<DasBlogSettings> appSettings)
         {
-            _dataService = dataService;
-            _loggingDataService = loggingDataService;
+            _dasBlogsettings = appSettings.Value;
+            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogsettings.Logs);
+            _dataService = BlogDataServiceFactory.GetService(_dasBlogsettings.Content, _loggingDataService);
         }
 
         public IActionResult Index()
         {
-            var loggingService = LoggingDataServiceFactory.GetService("D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\logs\\");
-            var dataService = BlogDataServiceFactory.GetService("D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\content\\", loggingService);
-
-            // Get post by GUID
-            var entryGuid = dataService.GetEntry("bbecae4b-e3a3-47a2-b6a6-b4cc405f8663");
-
             // Get post by title
             // ~/CommentView.aspx?title=MoralMachineTheProblemIsChoice
-            var entryComment = dataService.GetEntry("GeneralPatternsusedtoDetectaLeak");
+            var entryComment = _dataService.GetEntry("GeneralPatternsusedtoDetectaLeak");
 
 
             // Get post by Date and title
             // ~/Permalink.aspx?title=MoralMachineTheProblemIsChoice
-            DayEntry dayEntry = dataService.GetDayEntry(new DateTime(2016, 10, 13));
+            DayEntry dayEntry = _dataService.GetDayEntry(new DateTime(2016, 10, 13));
             var entryPermalink = dayEntry.GetEntryByTitle("GeneralPatternsusedtoDetectaLeak");            
 
             // Get all entries Archives
-            var entries = dataService.GetEntries(false);
+            var entries = _dataService.GetEntries(false);
 
             // Month View
             string languageFilter = Request.Headers["Accept-Language"];
-            var daysWithEntries = dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
+            var daysWithEntries = _dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
 
             //Initial page content ?????
 
@@ -63,46 +60,31 @@ namespace DasBlog.Web.UI.Controllers
                     new PostViewModel
                     {
                         Author = "Mark Downie",
-                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
                         Categories = "Categories",
-                        Comment = "Comment",
                         Description = "Description",
-                        Email = "mdownie@poppastring.com",
-                        Guid = "123-134-2341234-1324-123412",
-                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        EntryId = "123-134-2341234-1324-123412",
                         PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
-                        Text = "text",
                         Title = "Blog Title"
                     },
                     new PostViewModel
                     {
                         Author = "Mark Downie",
-                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
                         Categories = "Categories",
-                        Comment = "Comment",
                         Description = "Description",
-                        Email = "mdownie@poppastring.com",
-                        Guid = "123-134-2341234-1324-123412",
-                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        EntryId = "123-134-2341234-1324-123412",
                         PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
-                        Text = "text",
                         Title = "Blog Title"
                     },
                     new PostViewModel
                     {
                         Author = "Mark Downie",
-                        Body = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
+                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
                         Categories = "Categories",
-                        Comment = "Comment",
                         Description = "Description",
-                        Email = "mdownie@poppastring.com",
-                        Guid = "123-134-2341234-1324-123412",
-                        NextPost = "http://www.poppastring.com/blog/blog-title2",
+                        EntryId = "123-134-2341234-1324-123412",
                         PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        PreviousPost = "http://www.poppastring.com/blog/blog-title0",
-                        Text = "text",
                         Title = "Blog Title"
                     }
                 };
@@ -110,10 +92,31 @@ namespace DasBlog.Web.UI.Controllers
             return View(list);
         }
 		
-        [Route("comment/{index:guid}")]
+        [Route("comment/{Id:guid}")]
         public IActionResult Comment(Guid Id)
         {
-            return View();
+            // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
+            Entry entry = _dataService.GetEntry(Id.ToString());
+
+            ListPostsViewModel lvpm = new ListPostsViewModel();
+            lvpm.Posts = new List<PostViewModel> {
+                    new PostViewModel
+                    {
+                        Author = entry.Author,
+                        Content = entry.Content,
+                        Categories = entry.Categories,
+                        Description = entry.Description,
+                        EntryId = entry.EntryId,
+                        AllowComments = entry.AllowComments,
+                        IsPublic = entry.IsPublic,
+                        PermaLink = entry.Link,
+                        Title = entry.Title
+                    }
+                };
+
+            ViewData["Message"] = "Comment...";
+            
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogsettings.Theme), lvpm);
         }
 		
 		

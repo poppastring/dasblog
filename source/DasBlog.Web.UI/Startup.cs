@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Razor;
 using DasBlog.Web.UI.ViewEngine;
+using newtelligence.DasBlog.Runtime;
+using DasBlog.Web.UI.Models;
 
 namespace DasBlog.Web.UI
 {
@@ -24,8 +26,11 @@ namespace DasBlog.Web.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            services.Configure<DasBlogSettings>(Configuration.GetSection("DasBlogSettings"));
+
             services.Configure<RazorViewEngineOptions>(rveo => {
-                rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlog")["Theme"]));
+                rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
             });
 
             services.AddMvc();
