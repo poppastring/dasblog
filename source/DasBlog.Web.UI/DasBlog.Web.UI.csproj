@@ -2,28 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <UserSecretsId>aspnet-DasBlog.Web.UI-312BBC69-DF0B-4377-BE5E-F1B49692D815</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\newtelligence.DasBlog.Runtime\newtelligence.DasBlog.Runtime.csproj" />
-    <ProjectReference Include="..\newtelligence.DasBlog.Web.Core\newtelligence.DasBlog.Web.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.UI.Core\DasBlog.Web.UI.Core.csproj" />
+    <ProjectReference Include="..\DasBlog.Web.UI.Repositories\DasBlog.Web.UI.Repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewEngine\" />
-    <Folder Include="Themes\" />
+    <Folder Include="wwwroot\logs\" />
+    <Folder Include="wwwroot\content\" />
   </ItemGroup>
 
 </Project>

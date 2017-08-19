@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using DasBlog.Web.UI.Models;
 
-namespace DasBlog.Web.UI.ViewEngine
+namespace DasBlog.Web.UI.ViewsEngine
 {
     public class DasBlogLocationExpander : IViewLocationExpander
     {
@@ -15,7 +11,7 @@ namespace DasBlog.Web.UI.ViewEngine
 
         public DasBlogLocationExpander(string theme)
         {
-            _theme =  string.Format(_themeLocation, theme);
+            _theme = string.Format(_themeLocation, theme);
         }
 
         public IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)

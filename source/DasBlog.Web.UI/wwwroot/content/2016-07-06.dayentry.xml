@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-07-05T18:00:00-06:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;Are you old enough to remember the release of ASP.NET? I &lt;strike&gt;un&lt;/strike&gt;fortunately am, I distinctly recollect it presenting a straightforward abstraction over the existing Classic ASP programming model. It took me a few years to realize, however, that the abstraction layer was designed to hide the truth of traditional web development from novices like me, and that this was not necessarily positive. But it genuinely assisted the transition to the web for those of us who were more comfortable in the event driven Windows desktop world.&lt;/p&gt; &lt;p&gt;How about the &lt;a href="http://www.poppastring.com/blog/ASPNETPageExecutionCycle.aspx"&gt;ASP.NET Page execution cycle&lt;/a&gt; diagrams? Just wow! Our world was ruled by HttpModules and HttpHandlers, and web services could only to be constructed in ASMX files, it worked but it represent a kind of cynical compromise for wed development standards.&lt;/p&gt; &lt;p&gt;From my perspective until we got genuine MVC integration we were living and working in a framework that was designed by Microsoft for Microsoft. Now, for the first time in a long time, I am confident that the changes upon us are developed on the idea of limited compromise.We have gone from being inexorably tied to the IIS and Windows to now punching holes in the space-time continuum and popping up into self-host scenarios, and even onto Mac and Linux platforms, with the notable release &lt;a href="http://dot.net/"&gt;ASP.NET CORE 1.0&lt;/a&gt;.&lt;/p&gt; &lt;h3&gt;The framework we need&lt;/h3&gt; &lt;p&gt;So what is .NET Core?&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Light-weight and modular HTTP request pipeline  &lt;li&gt;Single web stack for Web UI and Web APIs  &lt;li&gt;Built on .NET Core  &lt;li&gt;Ships via NuGet packages  &lt;li&gt;Build and run ASP.NET apps cross-platform on Windows, Mac and Linux&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;The .NET Core command line (CLI previously DNX) is the runtime environment (and SDK) that has everything you need to build and run .NET applications for Windows, Mac and Linux.&amp;nbsp; Instructions for the &lt;a href="http://dot.net"&gt;installation of SDK can be found here&lt;/a&gt;. To create a new project, it is as simple as this:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Open your command window  &lt;li&gt;Create a new folder and navigate to it  &lt;li&gt;&lt;em&gt;&lt;strong&gt;dotnet new&lt;/strong&gt;&lt;/em&gt; creates a new project  &lt;li&gt;&lt;em&gt;&lt;strong&gt;dotnet restore&lt;/strong&gt; &lt;/em&gt;brings down the required NuGet packages  &lt;li&gt;&lt;em&gt;&lt;strong&gt;dotnet run&lt;/strong&gt; &lt;/em&gt;to run the application&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;That’s it! After doing this there will be an auto generated &lt;em&gt;program.cs&lt;/em&gt; file in the new folder and a standard &lt;em&gt;void Main()&lt;/em&gt; method for a console app, you can pick your text editing application and have at it, something like this…&lt;/p&gt;&lt;pre class="brush: csharp;"&gt;public class Program
+{
+    public static void Main(string[] args)
+    {
+        var host = new WebHostBuilder()
+            .UseKestrel()
+            .UseStartup&amp;lt;DoStuff&amp;gt;()
+            .Build();
+
+        host.Run();
+    }
+}
+
+public class DoStuff
+{
+    public void Configure(IApplicationBuilder app)
+    {            
+        app.Run(async (context) =&amp;gt;
+        {
+            await context.Response.WriteAsync(
+                "Doing stuff ... I promise ");                                                
+        });
+    }
+}&lt;/pre&gt;
+&lt;p&gt;Just seeing how quickly you can get started provides a great opportunity for teaching and hackathons, instead of spending the first 2 hours ensuring everyone is on the same page this setup process can just take minutes. This is great!&lt;/p&gt;
+&lt;h4&gt;Middleware&lt;/h4&gt;
+&lt;p&gt;HttpModules and Handlers were once my &lt;em&gt;go to&lt;/em&gt; ASP.NET interview talking point I used to use it gauge if folks were “Senior” or not, however, that mechanism is no longer in the pipeline and we are left with the versatile &lt;strong&gt;&lt;a href="https://docs.asp.net/en/latest/fundamentals/middleware.html"&gt;Middleware&lt;/a&gt;,&lt;/strong&gt; as defined below:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Middleware – Pass through components that form a pipeline between a server and application to inspect, route, or modify request and response messages for a specific purpose.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;You can use Middleware to implement tasks as requests arrive such as authorizations, authentication, session state management etc. For starters though you might consider implementing existing Middleware (Authentication, Diagnostics, Routing, Working with Static Files), the following implements MVC in the pipeline.&lt;/p&gt;&lt;pre class="brush: csharp;"&gt;public class DoStuff
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddMvc();
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseMvc();
+    }
+}&lt;/pre&gt;
+&lt;p&gt;There is so much more to talk about here (Services, Hosting), but I am hoping this sets the groundwork for future forays into the .NET Core space, I am especially interested in what this means for practical memory profiling in the IIS space.&lt;/p&gt;</Content>
+      <Created>2016-07-05T20:31:28.6693654-06:00</Created>
+      <Modified>2016-07-14T14:29:29.3663907-06:00</Modified>
+      <EntryId>4f63ec5e-8859-41c2-bd01-b6a017d67310</EntryId>
+      <Description />
+      <Title>.NET Core 1.0–The Framework we need</Title>
+      <Categories>ASP.NET;DotNetCore</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

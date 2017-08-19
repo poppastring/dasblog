@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-06-21T18:00:00-06:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;Most people who start coding (me included) have a natural affinity towards poor design, but we refine our approach slowly and methodically over months and years, probably as follows :-&lt;/p&gt; &lt;ul&gt; &lt;li&gt;How do I get this app to work?  &lt;li&gt;How do I get this app to look good?  &lt;li&gt;How do I get this app to work faster?  &lt;li&gt;How do I get this&amp;nbsp; app to work consistently in any environment?&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;Recently with so many consumers using mobile devices I have begun adding one more serious consideration to that list:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;How do I ensure that I consume as little power as possible?&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;I think we have just got to the point where we assume our mobile devices will give us a solid working day of use, but that assumption relies heavily on the idea of performing benign activities with a specific set of lower &lt;em&gt;intensity&lt;/em&gt; apps. There was a really interesting post from the Windows blog recently that demonstrated how the &lt;a href="https://blogs.windows.com/windowsexperience/2016/06/20/more-battery-with-edge/"&gt;Edge browser offers significant improvements in battery life over Chrome&lt;/a&gt;, they compared today’s leading browsers across three independent dimensions, here are the recorded results:&lt;/p&gt; &lt;div class="video-container"&gt;&lt;iframe height="414" src="https://www.youtube.com/embed/rjrxOOfi54k" frameborder="0" width="680" allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt; &lt;p&gt;Designing for Mobile devices is not all about ensuring the UX/UI is touch friendly and accessible, it needs to include considerations and optimizations for battery consumption. I know I personally &lt;a href="http://www.poppastring.com/blog/PortablePowerCalculations.aspx"&gt;carry around power packs&lt;/a&gt; to ensure that I remain connected. &lt;strong&gt;So how exactly can we test for&amp;nbsp; our coding decisions to ensure low battery consumption?&lt;/strong&gt;&lt;/p&gt; &lt;h3&gt;Energy Consumption Profile&lt;/h3&gt; &lt;p&gt;The &lt;em&gt;Energy Consumption profiler&lt;/em&gt; in &lt;a href="http://www.poppastring.com/blog/CategoryView,category,VisualStudio.aspx"&gt;Visual Studio 2015&lt;/a&gt; captures the activities of the display, CPU, and network connections of a device during a profiling session. It subsequently generates estimates of the power used and the total amount of energy for the profiling session. This is all model based analysis and thus it provides only rough estimate for a lower powered tablet or mobile device. This does not, unfortunately, include important features like GPU, Bluetooth or GPS but it is a reasonable baseline for most other normal activities.&lt;/p&gt; &lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/0807d45e9d7b_12F20/EnergyProfileData_2.png"&gt;&lt;img title="Energy Profile Data (Visual Studio)" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin-left: auto; display: block; padding-right: 0px; border-top-width: 0px; margin-right: auto" border="0" alt="Energy Profile Data (Visual Studio)" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/0807d45e9d7b_12F20/EnergyProfileData_thumb.png" width="60%" height="60%"&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;Along the profiling timeline you have the ability to set &lt;strong&gt;User marks&lt;/strong&gt; which allows you to quickly tag an area of code that you suspect could be consuming too much power. The code is as simple as this:&lt;/p&gt;&lt;pre class="brush: xml;"&gt;if (performance &amp;amp;&amp;amp; performance.mark) {
+    performance.mark(“Swipe on MainPage”);
+}
+&lt;/pre&gt;
+&lt;p&gt;To setup &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/dn263062(v=vs.120).aspx"&gt;Energy Consumption Profiling in Visual Studio check out this site&lt;/a&gt;.&lt;/p&gt;</Content>
+      <Created>2016-06-21T20:02:12.7054605-06:00</Created>
+      <Modified>2016-06-21T20:03:47.4916681-06:00</Modified>
+      <EntryId>02b9272e-9ce7-4d12-a0e8-a80d5cef04e2</EntryId>
+      <Description />
+      <Title>Designing apps for efficient battery usage</Title>
+      <Categories>.NET;Hardware</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

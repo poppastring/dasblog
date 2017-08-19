@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-07-28T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Does-your-software-need-a-superhero_10FA7/BlackPantherSketch_2.jpg"&gt;&lt;figure&gt;&lt;img title="Black Panther sketch" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Black Panther sketch" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Does-your-software-need-a-superhero_10FA7/BlackPantherSketch_thumb.jpg" width="1024" height="500"&gt;&lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;I have been on numerous software projects over the years, and I am glad to say that the overwhelming majority over those have been successful. On time, on budget and meeting the requirements.&lt;/p&gt; &lt;p&gt;However, there have been those gnarly projects that simply would not go away, they would render our project timelines obsolete, or expectations fell way short in some unforeseen way. These kind of projects either die a quick, dramatic and embarrassing death or, regretfully, go on to create products that we end up supporting forever and regretting every moment of its existence. The consistent theme to this type of abject failure is in deploying a brilliant solution to a problem you did not fully understand.&lt;/p&gt; &lt;h4&gt;Creating your own Nemesis&lt;/h4&gt; &lt;p&gt;These project if left unchecked follow the grand tradition of &lt;a href="http://www.poppastring.com/blog/visualstudioheraldofmicrosoft.aspx"&gt;DC and Marvel Universe villains&lt;/a&gt;, where the path of the hero and his greatest nemesis are intertwined and symbiotic. So I wanted to quickly jot down how you can quickly tell if you might be the author of software that will end in your own destruction &lt;img class="wlEmoticon wlEmoticon-smile" style="border-top-style: none; border-left-style: none; border-bottom-style: none; border-right-style: none" alt="Smile" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Does-your-software-need-a-superhero_10FA7/wlEmoticon-smile_2.png"&gt; :-&lt;/p&gt; &lt;ol&gt; &lt;li&gt;&lt;strong&gt;It was conceived from an oozing, toxic blend of narcissism and cynicism. &lt;/strong&gt; &lt;li&gt;&lt;strong&gt;Its veraciously consumes precious (technical) resources. &lt;/strong&gt; &lt;li&gt;&lt;strong&gt;It is growing exponentially and will soon be beyond the control and influence of its creators (aka project team). &lt;/strong&gt; &lt;li&gt;&lt;strong&gt;You gave the project a creepy nickname that has caught on, and now that name represents everyone's genuine despair. &lt;/strong&gt; &lt;li&gt;&lt;strong&gt;You have lost some of your very best engineering talent because no one could manage the growing threat.&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt; &lt;p&gt;What would you add to this list? Have you had any projects like this?&lt;/p&gt;</Content>
+      <Created>2016-07-29T11:15:14.5083012-07:00</Created>
+      <Modified>2016-10-27T18:17:36.3094323-07:00</Modified>
+      <EntryId>d447ac24-8a9b-45ee-8f53-22f9440e2603</EntryId>
+      <Description />
+      <Title>Does your software need a superhero?</Title>
+      <Categories>Development Process;Musings</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

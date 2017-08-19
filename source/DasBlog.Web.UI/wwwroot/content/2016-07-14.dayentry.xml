@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-07-13T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="https://github.com/aspnet/KestrelHttpServer"&gt;Kestrel&lt;/a&gt; is the new cross platform .NET web server (based on &lt;a href="https://github.com/libuv/libuv"&gt;libuv&lt;/a&gt;) which runs on Linux, Mac and Windows 10 and will, eventually, run on &lt;a href="https://www.raspberrypi.org/"&gt;Raspberry Pi&lt;/a&gt;. One the outstanding improvements is the sheer speed. According to some measure it is about 20 times faster than ASP.NET running on IIS. This is clearly amazing and having been a ward for a high performance platform I was curious about some of the changes that were introduce to accelerate performance in such a drastic way.&lt;/p&gt; &lt;p&gt;The most important changes from my stand point were the ideas behind reducing &lt;a href="https://github.com/dotnet/coreclr/blob/master/Documentation/botr/garbage-collection.md"&gt;Garbage Collection&lt;/a&gt; pressure and taking advantage of advanced CPU instructions, to be clear there are other changes but I understood these the clearest, and could envision applying them to existing apps.&lt;/p&gt; &lt;h3&gt;Quick Garbage Collection Primer&lt;/h3&gt; &lt;p&gt;Most developer I converse with are fully aware that &lt;a href="https://github.com/dotnet/coreclr/blob/master/Documentation/botr/garbage-collection.md"&gt;.NET garbage collection&lt;/a&gt; (GC) is organized into generations (0, 1 and 2), however, the premise that GC further divides objects up into small and large object heaps is occasionally missed. When an object is large (greater than 85000 bytes) some attributes and actions associated with it become more significant than if the object is small. For instance, compacting it, meaning copying the memory elsewhere on the heap, is considered an expensive operation for larger objects. I then tend to think of garbage collection in the following logical and physical layouts:  &lt;h4&gt;Logical view of the GC Heap&lt;/h4&gt; &lt;ul&gt; &lt;li&gt;Generation 0 – For short lived objects  &lt;li&gt;Generation 1 - Objects that have survived gen 0, this is a buffer between gen 0 and the long lived gen 2  &lt;li&gt;Generation 2 - Objects that have survived gen 1, and large objects (&amp;gt; 85000 bytes)&lt;/li&gt;&lt;/ul&gt; &lt;h4&gt;Physical view of the managed heap segment&lt;/h4&gt; &lt;ul&gt; &lt;li&gt;Small object heap (SOH) &amp;lt; 85000 bytes [starts in gen 0]  &lt;li&gt;Large object heap (LOH) &amp;gt; 85000 bytes [starts in gen 2, because compaction is expensive]&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;A GC occurs if one of the following three conditions presents:  &lt;ul&gt; &lt;li&gt;Allocation exceeds the generation 0 or large object threshold  &lt;li&gt;System is in a low memory situation  &lt;li&gt;&lt;a href="https://msdn.microsoft.com/en-us/library/xe0c2357(v=vs.110).aspx"&gt;System.GC.Collect&lt;/a&gt; is called manually&lt;/li&gt;&lt;/ul&gt; &lt;h3&gt;Reducing Garbage Collection Pressure&lt;/h3&gt; &lt;p&gt;Managing memory on our behalf helps us immeasurably but the process is not cost free, so understanding the GC design is essential for efficient application servers. We need to be concerned with reducing GC pressure, by that I mean, reducing the conditions under which a GC is triggered. One really clever way to do this is to reduce the continuous need to allocate strings (which begin in Gen 0) by converting them to bytes and then ensuring that they live in the LOH by using a &lt;a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa965226(v=vs.85).aspx"&gt;Memory Pool&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;Remember, the goal is reducing the need for objects to be promoted through the generations unnecessarily (really CPU intensive). So in Kestrel all the strings that are important to the HTTP request/response life cycle (GET, POST, HEAD, etc) are created as static bytes, and are made part of a contiguous Memory Pool and then &lt;a href="https://msdn.microsoft.com/en-us/library/23acw07k(v=vs.110).aspx"&gt;pinned&lt;/a&gt;. Pinning the Memory Pool simply prevents the object from being moved around which frees the GC from the responsibility of constantly checking whether it needs to be decommitted, further reducing GC pressure. During a normal gen 2 the GC will take the opportunity to release segments that have no live objects on them back to the OS (by calling &lt;a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa366892(v=vs.85).aspx"&gt;VirtualFree&lt;/a&gt;) but for pinned objects this would skipped.&lt;/p&gt; &lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/ASP.NET-Core-Kestrel---The-Need-for-Spee_3FC/LOH_Graph_4.png"&gt;&lt;figure&gt;&lt;img title="Large Object Heap (LOH) Graph" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Large Object Heap (LOH) Graph" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/ASP.NET-Core-Kestrel---The-Need-for-Spee_3FC/LOH_Graph_thumb_1.png" width="1874" height="750"&gt; &lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;h3&gt;Avoiding Strings&lt;/h3&gt; &lt;p&gt;All HTTP requests arrive at the designated ports as bytes and normally we would go about the process of converting them to strings, but as I noted Kestrel has gone about the business of defining known strings as bytes so all common comparisons become a mathematic operation, rather than a string comparison. Luckily enough the verbs and headers are all 8 bytes (or less) and so you can define each of them with a static long. This then means Kestrel can process many request without dealing with strings. No strings means no allocations, no deallocation, which means reduced GC pressure … yay. &lt;/p&gt; &lt;p&gt;So when you retrieve a POST from the wire you can do a bitwise compare against a statically assigned constant (&lt;a href="https://github.com/aspnet/KestrelHttpServer/blob/09f5be1434257948414ae993f52f975f99bf26cd/src/Microsoft.AspNetCore.Server.Kestrel/Internal/Infrastructure/MemoryPoolIteratorExtensions.cs"&gt;actual code is here&lt;/a&gt;):&lt;/p&gt;&lt;pre class="brush: csharp;"&gt;public const string HttpPostMethod = "POST";
+private readonly static long _httpGetMethodLong = GetAsciiStringAsLong("GET \0\0\0\0");
+private readonly static long _httpPostMethodLong = GetAsciiStringAsLong("POST \0\0\0");
+
+/// &amp;lt;summary&amp;gt; 
+/// Checks that up to 8 bytes from &amp;lt;paramref name="begin"/&amp;gt; correspond to a known HTTP method. 
+/// &amp;lt;/summary&amp;gt; 
+public static bool GetKnownMethod(this MemoryPoolIterator begin, out string knownMethod) 
+{ 
+    knownMethod = null; 
+    var value = begin.PeekLong(); 
+    
+    if ((value &amp;amp; _mask4Chars) == _httpGetMethodLong) 
+    { 
+        knownMethod = HttpGetMethod; 
+        return true; 
+    } 
+    foreach (var x in _knownMethods) 
+    { 
+        if ((value &amp;amp; x.Item1) == x.Item2) 
+        { 
+            knownMethod = x.Item3; 
+            return true; 
+        } 
+    } 
+    return false; 
+}
+
+private readonly static Tuple&amp;lt;long, long, string&amp;gt;[] _knownMethods = new Tuple&amp;lt;long, long, string&amp;gt;[8];
+
+static MemoryPoolIteratorExtensions() 
+{ 
+    /// ... 
+    _knownMethods[1] = Tuple.Create(_mask5Chars, _httpPostMethodLong, HttpPostMethod); 
+    /// ...
+}
+&lt;/pre&gt;
+&lt;p&gt;Why do this when a simple &lt;em&gt;IndexOf&lt;/em&gt;, &lt;em&gt;Compare&lt;/em&gt; or &lt;em&gt;EndsWith&lt;/em&gt; method exists? Well at this layer you are obligated to care about every allocation because it has a direct consequence on the overall speed. Every microsecond counts.&lt;/p&gt;
+&lt;h3&gt;CPU Instructions&lt;/h3&gt;
+&lt;p&gt;It has been a long time since I have been directly concerned with CPU instructions, however, &lt;a href="http://www.intel.com/content/www/us/en/homepage.html"&gt;Intel&lt;/a&gt; has long since introduced &lt;a href="https://software.intel.com/en-us/articles/introduction-to-intel-advanced-vector-extensions/"&gt;Advanced Vector Instructions (AVX)&lt;/a&gt; which allow &lt;a href="https://en.wikipedia.org/wiki/SIMD"&gt;Single Instruction Multiple Data&lt;/a&gt; (SIMD) operations on Intel architecture CPUs. In simple terms this means Kestrel can look at more than one byte at a time in a single CPU instruction, however, to do this you will need to write your code in Assembly language … ugh.&lt;/p&gt;
+&lt;p&gt;Not to worry, .NET Core uses the &lt;a href="https://blogs.msdn.microsoft.com/dotnet/2013/09/30/ryujit-the-next-generation-jit-compiler-for-net/"&gt;RyuJIT&lt;/a&gt; compiler (also used by .NET 4.6) and that allows us to emit byte code that uses AVX (check out &lt;a href="https://msdn.microsoft.com/en-us/library/dn858218(v=vs.111).aspx"&gt;System.Numerics.Vector&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So what does this really mean? It permits you to perform operations on data larger than the register size of the CPU. So for a 64 bit CPU you can actually perform 128 bit operations by using CPU extensions (up to 512 bits for AVX 3). You can operate on 16 bytes or 2 longs at a time rather than looping through individual bytes as they are retrieved from the wire.&lt;/p&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;Understanding the Garbage Collection process is critical to building high performance platforms like Kestrel, and while this kind of design consideration is an edge case for most of us, understanding the basics of GC can improve even the simplest modern applications. Kestrel's performance (clocked at 5 million request a second I believe) is a testament to a dedicated Microsoft Team and its commitment to collaborating with the &lt;a href="http://www.poppastring.com/blog/OpenSourceContributionsAsAnActOfLove.aspx"&gt;open source community&lt;/a&gt;. 
+&lt;h4&gt;References:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/dotnet/coreclr/blob/master/Documentation/botr/intro-to-clr.md"&gt;Intro to the CLR&lt;/a&gt; 
+&lt;li&gt;&lt;a href="https://github.com/dotnet/coreclr/blob/master/Documentation/botr/garbage-collection.md"&gt;Garbage Collection&lt;/a&gt; 
+&lt;li&gt;&lt;a href="https://vimeo.com/172009499"&gt;Adventures in building a fast web server&lt;/a&gt; 
+&lt;li&gt;&lt;a href="http://hanselminutes.com/509/inside-age-of-ascent-with-ben-adams"&gt;Hanselminutes - Inside Age of Ascent with Ben Adams&lt;/a&gt; 
+&lt;li&gt;&lt;a href="https://github.com/aspnet/benchmarks"&gt;Benchmarks for ASP.NET Core&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</Content>
+      <Created>2016-07-13T21:52:09.0001375-07:00</Created>
+      <Modified>2016-10-27T17:32:50.5221136-07:00</Modified>
+      <EntryId>8d6d4e32-6f0f-4405-b03c-478904eb4f13</EntryId>
+      <Description />
+      <Title>ASP.NET Core Kestrel - The Need for Speed</Title>
+      <Categories>ASP.NET;DotNetCore</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

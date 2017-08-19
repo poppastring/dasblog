@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-05-26T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Let-it-shine_14718/InterStellar_2.jpg"&gt;&lt;figure&gt;&lt;img title="Interstellar - The black hole Gargantua" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Interstellar - The black hole Gargantua" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Let-it-shine_14718/InterStellar_thumb.jpg" width="1024" height="437"&gt;&lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;We are at the center of the universe … well the earth, by definition, is at the center of our observable universe. By that I mean, we can only see or sense objects that have had sufficient time to send signals to us (includes visible light, x-ray, gamma ray, etc.), anything outside of that observable sphere is essentially invisible and only the passing of time will provides opportunity to reveal more of the universe to us.&lt;/p&gt; &lt;p&gt;The sheer size of the universe is almost unimaginable and what we see (especially with the naked eye) is the tiniest of tiny portions of that whole. The point here is that each celestial object is emitting signals but whether we have the ability to see it or recognize it is a function of where we are situated and the tools for observation at our disposal.&lt;/p&gt; &lt;p&gt;I have become more and more aware that many developers and tech writers who inspired me to start blogging back in the early 2000's are no longer around. I started by reviewing my &lt;a href="http://feedly.com/"&gt;Feedly&lt;/a&gt; account and noticed that I had not heard from some of our best and brightest in years and as I started to remove those dormant blogs I started to consider where those voice and opinions are today. Indeed, new developers do not seem as interested in the blogging and I started to wonder if the natural beauty of the web is somehow in atrophy.&lt;/p&gt; &lt;p&gt;It took me a while to realize that these voices may not be blogging but they are mostly still out there doing work (shining as it were). Today rather than blog in long form they contribute on &lt;a href="https://github.com/"&gt;GitHub&lt;/a&gt;, or they are giving talks locally, creating training videos on &lt;a href="https://www.pluralsight.com/"&gt;PluralSight&lt;/a&gt;, answering hundreds of questions on &lt;a href="http://stackoverflow.com/"&gt;Stack Overflow&lt;/a&gt;, or just organizing developers at work. Some of them are doing all of the above.&lt;/p&gt; &lt;p&gt;So rather than thinking of those &lt;a href="http://www.hanselman.com/blog/DarkMatterDevelopersTheUnseen99.aspx"&gt;developers as mysterious dark matter&lt;/a&gt;, I prefer to think of them as interstellar objects that I am not currently equipped or positioned to witness.&lt;/p&gt; &lt;p&gt;So to all my fellow developers, technologists and nerds, choose a platform, it does not really matter which just&lt;strong&gt; let it shine, let it shine, let it shine!&lt;/strong&gt;&lt;/p&gt;</Content>
+      <Created>2016-05-26T20:32:45.9899808-07:00</Created>
+      <Modified>2016-10-27T18:15:47.9344309-07:00</Modified>
+      <EntryId>3685240d-429e-4c23-9fba-1ea4b04172f2</EntryId>
+      <Description />
+      <Title>Let it Shine</Title>
+      <Categories>Musings</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-09-07T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;When I first got my Surface I did not get the Pen, I was kind of locked into the idea that what I had purchased was a small laptop rather than a tablet/laptop hybrid. After seeing a few people use the Surface Pen I realized that I was selling my experience a little short.&lt;/p&gt; &lt;p&gt;The Surface pen was originally configured exclusively for use with the Modern version of OneNote, that is the pen clicks would only start up version of that app. For me this was a little remedial, and so I found a way to &lt;a href="http://www.poppastring.com/blog/Windows10TipRemoveAndReplaceDefaultApplications.aspx"&gt;connect the pen click to the full version of OneNote. Actually, I found a way to connect it to any app you like&lt;/a&gt;!&lt;/p&gt; &lt;h3&gt;Configure Pen shortcuts&lt;/h3&gt; &lt;p&gt;Now with release &lt;a href="https://www.microsoft.com/en-US/windows/features"&gt;Windows Anniversary Update&lt;/a&gt; you can officially configure your Surface pen without resorting to my &lt;a href="http://www.poppastring.com/blog/Windows10TipRemoveAndReplaceDefaultApplications.aspx"&gt;registry hacks&lt;/a&gt;:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Hit the Windows key, type &lt;strong&gt;Pen settings&lt;/strong&gt;, and hit &lt;strong&gt;enter&lt;/strong&gt;.  &lt;li&gt;Configure what you would like your pen to do for &lt;strong&gt;Click once&lt;/strong&gt;, &lt;strong&gt;Double-click&lt;/strong&gt; and &lt;strong&gt;Press and hold&lt;/strong&gt; actions&lt;/li&gt;&lt;/ul&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/6162d0865c7d_B78A/WindowsPenShortCuts_2.png"&gt;&lt;figure&gt;&lt;img title="Windows Pen Shortcuts" style="display: inline" border="0" alt="Windows Pen Shortcuts" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/6162d0865c7d_B78A/WindowsPenShortCuts_thumb.png" width="1024" height="440"&gt; &lt;/figure&gt;&lt;/a&gt; &lt;p&gt;Your &lt;strong&gt;action&lt;/strong&gt; options currently include:-&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Nothing  &lt;li&gt;Windows Ink Workspace  &lt;li&gt;OneNote Universal  &lt;li&gt;Send a screenshot to OneNote Universal  &lt;li&gt;Launch a classic app (desktop)  &lt;li&gt;Launch a universal app&lt;/li&gt;&lt;/ul&gt;</Content>
+      <Created>2016-09-07T21:14:34.1305161-07:00</Created>
+      <Modified>2016-10-27T17:01:19.5650442-07:00</Modified>
+      <EntryId>7ca773b4-854d-4fff-b824-aa1b018a0f44</EntryId>
+      <Description />
+      <Title>Windows 10 Tip: Surface Pen Shortcuts</Title>
+      <Categories>User Experience;Windows</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

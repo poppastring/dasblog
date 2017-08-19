@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayExtra xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2017-01-19T19:00:00-05:00</Date>
+  <Comments>
+    <Comment>
+      <Content>testtest</Content>
+      <Created>2017-01-20T16:56:29.7261928-05:00</Created>
+      <Modified>2017-01-20T16:56:29.7261928-05:00</Modified>
+      <EntryId>0c8e35e6-d176-4077-9361-e982db62b103</EntryId>
+      <TargetTitle>test</TargetTitle>
+      <TargetEntryId>BEB21C9A-AF48-4576-8414-075729C3DC41</TargetEntryId>
+      <Author>test</Author>
+      <AuthorEmail />
+      <AuthorHomepage>http://test</AuthorHomepage>
+      <AuthorIPAddress>::1</AuthorIPAddress>
+      <IsPublic>true</IsPublic>
+      <OpenId>false</OpenId>
+      <SpamState>NotChecked</SpamState>
+      <AuthorUserAgent>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36</AuthorUserAgent>
+    </Comment>
+    <Comment>
+      <Content>asdfasdfdsfadfadf</Content>
+      <Created>2017-01-20T16:57:07.7480378-05:00</Created>
+      <Modified>2017-01-20T16:57:07.7480378-05:00</Modified>
+      <EntryId>eb090eea-ecee-40af-89bf-e8d53005208b</EntryId>
+      <TargetTitle>test</TargetTitle>
+      <TargetEntryId>BEB21C9A-AF48-4576-8414-075729C3DC41</TargetEntryId>
+      <Author>test</Author>
+      <AuthorEmail />
+      <AuthorHomepage>http://test</AuthorHomepage>
+      <AuthorIPAddress>::1</AuthorIPAddress>
+      <IsPublic>true</IsPublic>
+      <OpenId>false</OpenId>
+      <SpamState>NotChecked</SpamState>
+      <AuthorUserAgent>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36</AuthorUserAgent>
+    </Comment>
+  </Comments>
+  <Trackings />
+</DayExtra>

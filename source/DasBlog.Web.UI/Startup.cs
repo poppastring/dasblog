@@ -7,18 +7,27 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Mvc.Razor;
-using DasBlog.Web.UI.ViewEngine;
-using newtelligence.DasBlog.Runtime;
 using DasBlog.Web.UI.Models;
+using Microsoft.AspNetCore.Mvc.Razor;
+using DasBlog.Web.UI.ViewsEngine;
+using DasBlog.Web.UI.Core;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Http;
+using DasBlog.Web.UI.Repositories.Interfaces;
+using DasBlog.Web.UI.Repositories;
+using Microsoft.Extensions.FileProviders;
+using System.Reflection;
 
 namespace DasBlog.Web.UI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IHostingEnvironment _hostingEnvironment;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            _hostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,11 +36,23 @@ namespace DasBlog.Web.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.Configure<DasBlogSettings>(Configuration.GetSection("DasBlogSettings"));
+            // services.Configure<DasBlogSettings>(Configuration.GetSection("DasBlogSettings"));
 
             services.Configure<RazorViewEngineOptions>(rveo => {
                 rveo.ViewLocationExpanders.Add(new DasBlogLocationExpander(Configuration.GetSection("DasBlogSettings")["Theme"]));
             });
+
+            services.AddTransient<IDasBlogSettings>(provider =>
+                     new DasBlogSettings(Configuration.GetSection("DasBlogSettings")["LogsDirectory"],
+                                        Configuration.GetSection("DasBlogSettings")["ContentDirectory"],
+                                        Configuration.GetSection("DasBlogSettings")["Theme"], 
+                                        _hostingEnvironment.WebRootPath
+                                        ));
+
+            services.AddSingleton<IBlogRepository, BlogRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IPrincipal>(provider =>
+                        provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddMvc();
         }
@@ -42,6 +63,7 @@ namespace DasBlog.Web.UI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             else
             {

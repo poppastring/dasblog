@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-05-11T18:00:00-06:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;Intelligent applications are all the rage and I for one was really surprised to see how easy and quickly some basic recognition can be developed using the Windows Runtime. It took me just a few minutes to get a webcam to recognize if one or more faces are in frame in a Universal Windows App (UWA).&lt;/p&gt; &lt;p&gt;In the following XAML we have a simple button and a Capture element. The capture element is the means by which we stream from a webcam onto a page or form of the UWA. We are then going to use the &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.faceanalysis.aspx"&gt;Face Analysis&lt;/a&gt; class to check how many faces are in the image. So here goes with XAML:&lt;/p&gt;&lt;pre class="brush: xml;"&gt;&amp;lt;CaptureElement x:Name="CameraCaptureElement" HorizontalAlignment="Left" Height="600" 
+                Margin="0,0,-240,0" VerticalAlignment="Top" Width="600" /&amp;gt;
+
+&amp;lt;Button x:Name="button" Content="Button" HorizontalAlignment="Left" 
+        Margin="145,605,0,0" VerticalAlignment="Top" Click="button_Click" /&amp;gt;&lt;/pre&gt;
+&lt;p&gt;In the UWA form I set the OnLoad method to complete the following steps:-&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Find all the video capture apparatus associated with the Windows device.
+&lt;li&gt;Select the front facing video device.
+&lt;li&gt;Use &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.capture.mediacapture.aspx"&gt;&lt;strong&gt;Windows.Media.Capture.MediaCapture&lt;/strong&gt;&lt;/a&gt; to initialize the &lt;em&gt;CaptureElement&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;&lt;pre class="brush: xml;"&gt;// Find all the videos, and select the one that is Front facing
+var videoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
+var frontCamera = videoDevices.FirstOrDefault(item =&amp;gt; item.EnclosureLocation != null 
+                        &amp;amp;&amp;amp; item.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Front);
+
+// Initialize the selected camera 
+MediaCapture mediaCaptureMgr = new MediaCapture();
+await mediaCaptureMgr.InitializeAsync(new MediaCaptureInitializationSettings { VideoDeviceId = frontCamera.Id });
+
+// Assign the camera to the CaptureElement on the Form
+CameraCaptureElement.Source = mediaCaptureMgr;
+await mediaCaptureMgr.StartPreviewAsync();
+&lt;/pre&gt;
+&lt;p&gt;Then we can use a simple OnClick event to capture an image from the &lt;em&gt;CatpureElement&lt;/em&gt; note the steps:-&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use the MediaCapture class to capture audio, videos and image streams from the webcam.&lt;/li&gt;
+&lt;li&gt;Convert the stream to &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.softwarebitmap.aspx"&gt;SoftwareBitmap&lt;/a&gt; and ensure that the SoftwareBitmap is in the correct pixel format&lt;/li&gt;
+&lt;li&gt;Use the &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.faceanalysis.facedetector.aspx"&gt;FaceDetector&lt;/a&gt; class to do its thing…&lt;/li&gt;&lt;/ul&gt;&lt;pre class="brush: xml;"&gt;// Grab the image from the CaptureElement into a stream
+InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
+MediaCapture mediaCaptureMgr = (MediaCapture)CameraCaptureElement.Source;
+await mediaCaptureMgr.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), stream);
+
+// Get the SoftwareBitmap from the stream and convert it to a supported format
+BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+SoftwareBitmap softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight);
+IReadOnlyList&amp;lt;BitmapPixelFormat&amp;gt; supportedBitmapPixelFormats = FaceDetector.GetSupportedBitmapPixelFormats();
+SoftwareBitmap convertedBitmap = SoftwareBitmap.Convert(softwareBitmap, supportedBitmapPixelFormats.First());
+
+//Detect number of faces
+FaceDetector faceDetect = await FaceDetector.CreateAsync();
+IList&amp;lt;DetectedFace&amp;gt; faces = await faceDetect.DetectFacesAsync(convertedBitmap);
+await new MessageDialog(string.Format("{0} faces detected.",faces.Count)).ShowAsync(); 
+&lt;/pre&gt;
+&lt;p&gt;The native Face Analysis in WinRT is rather elementary (no expression analysis), but there are a couple other interesting (albeit limited) detection namespaces. There is support for developing &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.speechsynthesis.aspx"&gt;synthesized speech (voice)&lt;/a&gt; by converting text strings to an audio stream (text-to-speech), and &lt;a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.speechrecognition.aspx"&gt;speech recognition&lt;/a&gt; for command and control within Windows Runtime apps. Next I want to take a look at &lt;a href="https://www.microsoft.com/cognitive-services"&gt;Microsoft Cognitive Services&lt;/a&gt; (cloud).&lt;/p&gt;</Content>
+      <Created>2016-05-11T19:28:15.6851287-06:00</Created>
+      <Modified>2016-05-11T19:28:15.6851287-06:00</Modified>
+      <EntryId>af0c5706-17cd-4fa4-84bf-fe3449f69929</EntryId>
+      <Description />
+      <Title>Facial Recognition using Windows Runtime API</Title>
+      <Categories>API;C#;Windows</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

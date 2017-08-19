@@ -1,0 +1,7 @@
+﻿{
+  "DasBlogSettings": {
+    "Theme": "DasBlog",
+    "Logs": "D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\logs\\",
+    "Content": "D:\\GitHub\\poppastring-dasblog\\dasblog\\source\\DasBlog.Web.UI\\content\\"
+  }
+}

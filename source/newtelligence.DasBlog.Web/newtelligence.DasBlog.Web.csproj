@@ -29,7 +29,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -37,6 +37,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -632,7 +633,9 @@
     <Content Include="UserClickThroughs.aspx" />
     <Content Include="UserClickThroughsBox.ascx" />
     <Content Include="UserView.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>

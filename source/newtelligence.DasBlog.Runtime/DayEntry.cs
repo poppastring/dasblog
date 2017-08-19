@@ -47,6 +47,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using newtelligence.DasBlog.Runtime.Proxies;
 using newtelligence.DasBlog.Util;
+using System.Security.Principal;
 
 namespace newtelligence.DasBlog.Runtime
 {
@@ -144,10 +145,18 @@ namespace newtelligence.DasBlog.Runtime
 			lock(entriesLock)
 			{
 				Predicate<Entry> filter = null;
-				if(!System.Threading.Thread.CurrentPrincipal.IsInRole("admin"))
-				{
+
+                if (System.Threading.Thread.CurrentPrincipal != null)
+                {
+                    if (!System.Threading.Thread.CurrentPrincipal.IsInRole("admin"))
+                    {
+                        filter += EntryCollectionFilter.DefaultFilters.IsPublic();
+                    }
+                }
+                else
+                {
                     filter += EntryCollectionFilter.DefaultFilters.IsPublic();
-				}
+                }
 
 				if(include != null)
 				{

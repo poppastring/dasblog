@@ -9,94 +9,74 @@ using newtelligence.DasBlog.Runtime;
 using newtelligence.DasBlog.Web.Core;
 using DasBlog.Web.UI.Models.BlogViewModels;
 using Microsoft.Extensions.Options;
+using DasBlog.Web.UI.Core;
+using DasBlog.Web.UI.Repositories.Interfaces;
+using newtelligence.DasBlog.Util;
+using Microsoft.Extensions.FileProviders;
 
 namespace DasBlog.Web.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private IBlogDataService _dataService;
-        private ILoggingDataService _loggingDataService;
-        private readonly DasBlogSettings _dasBlogsettings;
+        private readonly IBlogRepository _blogRepository;
+        private readonly IDasBlogSettings _dasBlogSettings;
 
-        public HomeController(IOptions<DasBlogSettings> appSettings)
+        public HomeController(IBlogRepository blogRepository, IDasBlogSettings settings)
         {
-            _dasBlogsettings = appSettings.Value;
-            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogsettings.Logs);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogsettings.Content, _loggingDataService);
+            _blogRepository = blogRepository;
+            _dasBlogSettings = settings;
         }
 
         public IActionResult Index()
         {
-            // Get post by title
-            // ~/CommentView.aspx?title=MoralMachineTheProblemIsChoice
-            var entryComment = _dataService.GetEntry("GeneralPatternsusedtoDetectaLeak");
+            ListPostsViewModel lpvm = new ListPostsViewModel();
+            lpvm.Posts = _blogRepository.GetFrontPagePosts()
+                                .Select(entry => new PostViewModel
+                                                    {
+                                                        Author = entry.Author,
+                                                        Content = entry.Content,
+                                                        Categories = entry.Categories,
+                                                        Description = entry.Description,
+                                                        EntryId = entry.EntryId,
+                                                        AllowComments = entry.AllowComments,
+                                                        IsPublic = entry.IsPublic,
+                                                        PermaLink = entry.Link,
+                                                        Title = entry.Title
+                                                    }).ToList();
 
 
-            // Get post by Date and title
-            // ~/Permalink.aspx?title=MoralMachineTheProblemIsChoice
-            DayEntry dayEntry = _dataService.GetDayEntry(new DateTime(2016, 10, 13));
-            var entryPermalink = dayEntry.GetEntryByTitle("GeneralPatternsusedtoDetectaLeak");            
-
-            // Get all entries Archives
-            var entries = _dataService.GetEntries(false);
-
-            // Month View
-            string languageFilter = Request.Headers["Accept-Language"];
-            var daysWithEntries = _dataService.GetDaysWithEntries(TimeZone.CurrentTimeZone);
-
-            //Initial page content ?????
-
-            return View();
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
         }
-		
-        [Route("page/{index:int}")]
-        public IActionResult Page(int index)
+
+        public IActionResult Post(string postitle)
         {
-            ViewData["Message"] = string.Format("Page {0}.", index);
+            // Get post by title
 
-            ListPostsViewModel list = new ListPostsViewModel();
-            list.Posts = new List<PostViewModel>()
-                {
-                    new PostViewModel
-                    {
-                        Author = "Mark Downie",
-                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
-                        Categories = "Categories",
-                        Description = "Description",
-                        EntryId = "123-134-2341234-1324-123412",
-                        PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        Title = "Blog Title"
-                    },
-                    new PostViewModel
-                    {
-                        Author = "Mark Downie",
-                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
-                        Categories = "Categories",
-                        Description = "Description",
-                        EntryId = "123-134-2341234-1324-123412",
-                        PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        Title = "Blog Title"
-                    },
-                    new PostViewModel
-                    {
-                        Author = "Mark Downie",
-                        Content = "This is the body of the something that we need, give me the beat... or not at the case may be. We are not relying on knowledge!",
-                        Categories = "Categories",
-                        Description = "Description",
-                        EntryId = "123-134-2341234-1324-123412",
-                        PermaLink = "http://www.poppastring.com/blog/blog-title",
-                        Title = "Blog Title"
-                    }
-                };
+            ListPostsViewModel lpvm = new ListPostsViewModel();
+            var entry = _blogRepository.GetBlogPost(postitle);
+            lpvm.Posts = new List<PostViewModel>() {
+                new PostViewModel {
+                        Author = entry.Author,
+                        Content = entry.Content,
+                        Categories = entry.Categories,
+                        Description = entry.Description,
+                        EntryId = entry.EntryId,
+                        AllowComments = entry.AllowComments,
+                        IsPublic = entry.IsPublic,
+                        PermaLink = entry.Link,
+                        Title = entry.Title
+                } };
 
-            return View(list);
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
         }
-		
+
         [Route("comment/{Id:guid}")]
         public IActionResult Comment(Guid Id)
         {
+            // ~/CommentView.aspx?title=GeneralPatternsusedtoDetectaLeak
+
             // Get post by GUID bbecae4b-e3a3-47a2-b6a6-b4cc405f8663
-            Entry entry = _dataService.GetEntry(Id.ToString());
+            Entry entry = _blogRepository.GetBlogPost(Id.ToString());
 
             ListPostsViewModel lvpm = new ListPostsViewModel();
             lvpm.Posts = new List<PostViewModel> {
@@ -116,10 +96,31 @@ namespace DasBlog.Web.UI.Controllers
 
             ViewData["Message"] = "Comment...";
             
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogsettings.Theme), lvpm);
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lvpm);
         }
-		
-		
+
+        [Route("page/{index:int}")]
+        public IActionResult Page(int index)
+        {
+            ViewData["Message"] = string.Format("Page...{0}",index);
+
+            ListPostsViewModel lpvm = new ListPostsViewModel();
+            lpvm.Posts = _blogRepository.GetEntriesForPage(index)
+                                .Select(entry => new PostViewModel
+                                {
+                                    Author = entry.Author,
+                                    Content = entry.Content,
+                                    Categories = entry.Categories,
+                                    Description = entry.Description,
+                                    EntryId = entry.EntryId,
+                                    AllowComments = entry.AllowComments,
+                                    IsPublic = entry.IsPublic,
+                                    PermaLink = entry.Link,
+                                    Title = entry.Title
+                                }).ToList();
+
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+        }
 
         public IActionResult About()
         {

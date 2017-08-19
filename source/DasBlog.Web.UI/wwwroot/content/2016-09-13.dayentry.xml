@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-09-12T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Hacked-under-the-cover-of-jQuery_10CF2/SciotoTrailBlindCurve_2.jpg"&gt;&lt;figure&gt;&lt;img title="Scioto Trail, Columbus Ohio (Blind Curve)" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Scioto Trail, Columbus Ohio (Blind Curve)" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Hacked-under-the-cover-of-jQuery_10CF2/SciotoTrailBlindCurve_thumb.jpg" width="1024" height="373"&gt; &lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;I was recently the victim of a hack on &lt;a href="http://www.poppastring.com"&gt;my site&lt;/a&gt;, it was quite disarming to realize I was out maneuvered on a platform that I have recently adopted as my own. Thankfully, the problems created by the hack were not designed to directly disrupt me but to feed quietly on my SEO rank, like a small barnacle on the ship of my potential success. I intend to talk about some of the side effects of the hack but not necessarily the details of the files involved, I simply do not want to propagate that kind of information. So here goes!&lt;/p&gt; &lt;h3&gt;How we detected the hack&lt;/h3&gt; &lt;p&gt;My better half often reviews my &lt;a href="http://www.google.com/analytics/"&gt;Google analytics performance&lt;/a&gt; and her eagle eyes noticed some strangely named files showing up in the daily results, not really a high number, but sufficiently strange to bring it to my attention. These files all existed in the root directory and closely resembled high end designer labels, some of names are listed here:-&lt;/p&gt; &lt;ul&gt; &lt;li&gt;louis_vuitton.asp  &lt;li&gt;michael_kors.asp  &lt;li&gt;prada.asp  &lt;li&gt;ray_ban.asp&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;Note the Classic ASP extension, ensuring the most malleable attack surface from which to inject nefarious code. Now dasBlog is old but not nearly that old. &lt;/p&gt; &lt;p&gt;Each of the files uploaded had been carefully crafted to look exactly like the rest of my site , copying the menus structure even making use of my own JavaScript and CSS files. They put a few additional minor changes modifying the header description and H2 tags, and additional content in the body designed to help the SEO of some other mendacious site.&lt;/p&gt; &lt;p&gt;The thing of note here is that all these files represented a layer of subterfuge, as each file contained the following lines of VBScript (I modified the destination to protect the curious):&lt;/p&gt;&lt;pre class="brush: js;"&gt;&amp;lt;%@ Language=VBScript %&amp;gt;
+&amp;lt;%
+Response.Status="301 Moved Permanently"
+Response.AddHeader "Location", "http://www.someotherplace.com/"              
+%&amp;gt;
+&lt;/pre&gt;&lt;br&gt;The overarching hack is pretty simple, use my site to redirect to some other location. 
+&lt;h3&gt;Tracking down the source&lt;/h3&gt;
+&lt;p&gt;When I saw these files in place my first assumption was that my FTP credentials had been compromised, that I had been too lax in where I used it or the quality of the password itself, so I immediately deleted the FTP user and created a new set of credentials with a much more complex password. I then deleted the files … only to find a fresh new set of the exact same files in place the very next day. This was disturbing!&lt;/p&gt;
+&lt;p&gt;Knowing it was not a FTP credential hack was a relief but no less a mystery, and at this point I was ready to assume anything. Could it be dasBlog? Had I created a plugin or modified source that was somehow vulnerable? Thankfully I could check my IIS logs to determine what kind of raw HTTP requests have been made against my blog and I found these entries (emphasis mine):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;2016-08-16 18:10:05 W3SVC269 SOFTSERV7 &lt;strong&gt;64.xx.xx.37 GET /js/jquery.asp - 80&lt;/strong&gt; - 14.204.123.133 HTTP/1.1 Mozilla/5.0+(Windows+NT+6.3;+WOW64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/38.0.2125.122+Safari/537.36+SE+2.X+MetaSr+1.0 - - &lt;/em&gt;&lt;a href="http://www.poppastring.com"&gt;&lt;em&gt;www.poppastring.com&lt;/em&gt;&lt;/a&gt;&lt;em&gt; 200 0 0 247 376 514&lt;/em&gt; 
+&lt;p&gt;&lt;em&gt;2016-08-16 18:10:25 W3SVC269 SOFTSERV7 &lt;strong&gt;64.xx.xx.37 POST /js/jquery.asp - 80&lt;/strong&gt; - 14.204.123.133 HTTP/1.1 Mozilla/4.0+(compatible;+MSIE+6.0;+Windows+NT+5.1) - &lt;/em&gt;&lt;a href="http://www.poppastring.com"&gt;&lt;em&gt;http://www.poppastring.com &lt;/em&gt;&lt;/a&gt;&lt;a href="http://www.poppastring.com"&gt;&lt;em&gt;www.poppastring.com&lt;/em&gt;&lt;/a&gt;&lt;em&gt; 200 0 0 309 1390 3681&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Aha! A call to a Classic ASP file that should not exist on my site, and this appears to be beginning of the interaction with this exploit. The hacker has, somehow, gotten this jquery.asp file onto my site and in doing so now has the ability to upload any files they see fit. Looking through my logs I saw this same IP address checking for the existence of other Classic ASP files and then doing a subsequent HTTP POST which presumably uploaded the files I had deleted the day before.&lt;/p&gt;
+&lt;p&gt;So this is a summary of what I found:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hosting and using an older version jQuery allowed the hacker to upload a file called jquery.asp. 
+&lt;li&gt;The hacker would perform a HTTP GET against the files he wanted to upload, if my server returned anything other than an Ok result (200) would prompt the hacker to replace the missing Classic ASP files. 
+&lt;li&gt;The jquery.asp file was designed to allow the hacker to easier mechanism to send a file and save it to my server via a HTTP POST. 
+&lt;li&gt;The hacker could then use these web files to direct trusting and unsuspecting &lt;a href="http://www.poppastring.com"&gt;poppastring&lt;/a&gt; users to less trustworthy locations on the web.&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;Remediation&lt;/h3&gt;
+&lt;p&gt;I worked with my original hosting service to block the offending IP address, of which there were several, but clearly there was more to this issue. After removing all the Classic ASP files I opted to not host or use the older version of jQuery (the place that I genuinely believe this hack started). 
+&lt;p&gt;It thought it strange that my site was the subject of this kind of hack, I am clearly not a popular site, but I assume that with some simple automation a single hacker could infect thousands of sites and help the SEO rank of suspicious websites of their choosing. If they get the credit card details of just a few users it would probably be a very lucrative, albeit illegal, enterprise.&lt;/p&gt;
+&lt;p&gt;Since this incident I have switched to a hosting provider that conducts regular backups and even has hack detection, as I have said before, &lt;a href="http://www.poppastring.com/blog/SHA1IfOneFailsAllFails.aspx"&gt;in security, you are only as strong as your weakest link&lt;/a&gt;.&lt;/p&gt;</Content>
+      <Created>2016-09-12T18:34:01.6638565-07:00</Created>
+      <Modified>2016-10-27T17:03:03.7823559-07:00</Modified>
+      <EntryId>f6c78b57-9b46-498a-880f-0abc27b3088e</EntryId>
+      <Description />
+      <Title>Hacked under the cover of jQuery</Title>
+      <Categories>JavaScript;Security</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

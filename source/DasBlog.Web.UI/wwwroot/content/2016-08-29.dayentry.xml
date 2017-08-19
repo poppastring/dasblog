@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-08-28T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Instant-Articles-for-dasBlog_12A43/FacebookInstantArticle_2.png"&gt;&lt;figure&gt;&lt;img title="Facebook Instant Article" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Facebook Instant Article" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Instant-Articles-for-dasBlog_12A43/FacebookInstantArticle_thumb.png" width="1024" height="516"&gt; &lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;A few months ago now &lt;a href="https://media.fb.com/2016/02/17/opening-up-instant-articles/"&gt;Facebook opened up Instant Articles to publishers&lt;/a&gt; great and small. Instant Articles have become Facebook's answer to the problem of &lt;a href="http://www.poppastring.com/blog/TheMobileWebIsSlowAndItsJavaScriptsFault.aspx"&gt;slow loading times plaguing the mobile web&lt;/a&gt;. For some of us this is a mostly vague inconvenience, but for folks who are unavoidably limited to low bandwidth it can be quite a maladroit experience.&lt;/p&gt; &lt;h3&gt;What are Instant Articles?&lt;/h3&gt; &lt;ul&gt; &lt;li&gt;Instant Articles are delivered via an RSS like feed, with a couple of subtle format differences.  &lt;li&gt;Article contain HTML which means you get to include links to the actual web.  &lt;li&gt;Facebook takes your feed and caches it on their own servers this allows for efficient, speed delivery of content.  &lt;li&gt;Facebook servers are tasked with keeping the feed in sync, so you can update already published articles.&lt;/li&gt;&lt;/ul&gt; &lt;p&gt;Make no mistake though this is about delivering content into Facebook's walled garden, and even with live links I think the chances of users leaving that garden are slim. While I am glad Instant Articles are based on an open format, I really worry that this format will not be widely adopted, thereby requiring other companies to create &lt;a href="https://www.buzzfeed.com/alexkantrowitz/linkedin-exploring-its-own-version-of-facebooks-instant-arti"&gt;competing versions of Instant Articles, which looks to be the LinkedIn approach&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;Regardless of my reservations I am sure many blogging platforms are eager to publish to an audience the size of Facebook. So several months ago I made &lt;a href="https://github.com/shanselman/dasblog/commit/9e3ec1c84feb90466a8e2e0525887675bdecca27"&gt;a few commits to dasBlog source&lt;/a&gt; so that anyone still using the &lt;a href="https://github.com/shanselman/dasblog/"&gt;dasBlog&lt;/a&gt; platform could follow suit. Here is &lt;a href="http://www.poppastring.com/blog/instantarticle"&gt;my local Instant Article feed&lt;/a&gt; which, just like my RSS feed, gets immediately updated and Facebook can read it every three minutes to pull those updates into the Facebook universe. If you are curious about the format, and are looking for specifics on implementation check out the &lt;a href="https://developers.facebook.com/docs/instant-articles/quickstart"&gt;Facebook quick start&lt;/a&gt; and &lt;a href="https://developers.facebook.com/docs/instant-articles/guides/design"&gt;design guidelines&lt;/a&gt;.&lt;/p&gt; &lt;p&gt;For now though I am working on &lt;a href="https://www.ampproject.org/"&gt;Accelerated Mobile Pages (AMP)&lt;/a&gt; in dasBlog which is Google’s answer to the same question, I imagine SEO ranking will soon depend on full compliance.&lt;/p&gt;</Content>
+      <Created>2016-08-29T16:30:00-07:00</Created>
+      <Modified>2016-10-27T16:41:55.7012593-07:00</Modified>
+      <EntryId>7cd626f5-2d68-4bc3-a4b6-a259ebf00d4a</EntryId>
+      <Description />
+      <Title>Instant Articles for dasBlog</Title>
+      <Categories>Open Source</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

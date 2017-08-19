@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-08-23T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;So I am working on &lt;a href="https://www.ampproject.org/docs/get_started/about-amp.html#amp-js"&gt;integrating AMP pages&lt;/a&gt; into &lt;a href="https://github.com/shanselman/dasblog"&gt;dasBlog (coming along nicely, thanks for asking)&lt;/a&gt; and as I am going through the documentation on GitHub looking for sample code I see the dreaded dollar sign ($) prompting me to run some alien command. For many developers this is fine, however, for those of us who come out of a Windows and .NET genealogy instead of a simple dollar sign command prompt, we see the imposing figure of Gandalf standing on the bridge in the mines of Moria shouting "Go back to the shadow. You shall not pass!!!"&lt;/p&gt; &lt;p&gt;Well … that has apparently changed since the &lt;a href="https://www.microsoft.com/en-US/windows/features"&gt;Windows Anniversary update&lt;/a&gt;, I can now run the &lt;a href="https://blogs.msdn.microsoft.com/commandline/"&gt;Bash shell!&lt;/a&gt; Now this is not the Linux kernel, obviously, but it appears to be the full Bash shell on Ubuntu on Windows! This allows me to run command line utilities like &lt;strong&gt;grep&lt;/strong&gt;, &lt;strong&gt;sed&lt;/strong&gt;, and &lt;strong&gt;awk&lt;/strong&gt;.&lt;/p&gt; &lt;p&gt;From a high level it looks like Microsoft ported the Linux UserMode code from Ubuntu and integrated it with a newly created &lt;strong&gt;Windows Subsystem for Linux (WSL)&lt;/strong&gt; running on Windows. For most of our developer utilities Ubuntu &lt;strong&gt;UserMode&lt;/strong&gt; simply thinks this subsystem &lt;em&gt;is&lt;/em&gt; Linux. You can WSL by enabling it in Windows features, shown here.&lt;/p&gt; &lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/WindowsSubsystemforLinux_2.png"&gt;&lt;figure&gt;&lt;img title="WindowsSubsystemforLinux" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin-left: auto; display: block; padding-right: 0px; border-top-width: 0px; margin-right: auto; max-width: 70%" border="0" alt="WindowsSubsystemforLinux" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/WindowsSubsystemforLinux_thumb.png" width="696" height="615"&gt; &lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;&amp;nbsp; In the Windows menu select bash run command and a prompt should popup encouraging you to install Ubuntu on Windows.  &lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/bashDownloadingWindowsStore_2.png"&gt;&lt;figure&gt;&lt;img title="bashDownloadingWindowsStore" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="bashDownloadingWindowsStore" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/bashDownloadingWindowsStore_thumb.png" width="1024" height="213"&gt; &lt;/figure&gt;&lt;/a&gt; &lt;p&gt;After the downloads and installs are complete follow the prompts to add a user (needed to run root commands). When completed run the following commands to pull down the latest updates and then install them, check out this &lt;a href="https://youtu.be/DmsJHocTt84"&gt;YouTube video more details on the install process here&lt;/a&gt;.&lt;pre class="brush: bash;"&gt;sudo apt update
+&lt;/pre&gt;&lt;pre class="brush: bash;"&gt;sudo apt upgrade&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://en.wikipedia.org/wiki/Sudo"&gt;sudo&lt;/a&gt;&lt;/strong&gt; will invariably ask you for the password you created, this is because we are asking this command to run with higher privileges. &lt;/p&gt;
+&lt;p&gt;This is all amazing and wonderful, but what did this allow me to do? Let's go back to the AMP page sample code that cause me all this heartburn to begin with, and this is what I saw.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/DealingwithBashCMDLine_2.png"&gt;&lt;figure&gt;&lt;img title="DealingwithBashCMDLine" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; float: none; padding-top: 0px; padding-left: 0px; margin-left: auto; display: block; padding-right: 0px; border-top-width: 0px; margin-right: auto" border="0" alt="DealingwithBashCMDLine" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Bash-on-Windows-10---Try-some-Dev-tools_6B9/DealingwithBashCMDLine_thumb.png" width="1024" height="410"&gt; &lt;/figure&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;First step, should be easy, fork the repo and save the URL. I assume you know how to do this, if not &lt;a href="https://help.github.com/articles/fork-a-repo/"&gt;go here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Second step, install &lt;strong&gt;npm&lt;/strong&gt;. Now &lt;a href="https://www.npmjs.com/"&gt;npm&lt;/a&gt; is a package manager tool for JavaScript (works like &lt;a href="http://nuget.org/"&gt;NuGet&lt;/a&gt; in .NET), this is a prerequisite step for installing other tools we may need. &lt;pre class="brush: bash;"&gt;sudo apt-get install npm
+&lt;/pre&gt;
+&lt;p&gt;Now we have the package manager installed, lets pull a package, in this case &lt;a href="http://gulpjs.com/"&gt;&lt;strong&gt;gulp&lt;/strong&gt;&lt;/a&gt;, which allows us to automate our development workflow.&lt;/p&gt;&lt;pre class="brush: bash;"&gt;sudo npm install -g gulp
+&lt;/pre&gt;
+&lt;p&gt;We forked the repo earlier, so that we could download the code, which means we also have to install &lt;strong&gt;git&lt;/strong&gt;.&lt;pre class="brush: bash;"&gt;sudo apt-get install git
+&lt;/pre&gt;
+&lt;p&gt;Now we can use the &lt;a href="http://github.com"&gt;git&lt;/a&gt; to download the code with this command, using the URL from the fork.&lt;/p&gt;&lt;pre class="brush: bash;"&gt;git clone https://github.com/poppastring/amp-by-example.git 
+&lt;/pre&gt;
+&lt;p&gt;This git command created a folder (amp-by-example) which you can navigate to with a simple &lt;strong&gt;cd&lt;/strong&gt; to a check exactly what got downloaded. 
+&lt;p&gt;Now to be perfectly honest not all of this worked immediately for me, but this is beta and I am going to allow this to mature into what I believe will be a wonderful opportunity to broaden the list of developer tools I currently have at my disposal. &lt;/p&gt;</Content>
+      <Created>2016-08-24T14:57:59.6897709-07:00</Created>
+      <Modified>2016-10-27T16:39:02.8164363-07:00</Modified>
+      <EntryId>8fe74345-b312-48fe-a4e5-11032b8f566b</EntryId>
+      <Description />
+      <Title>Adding Bash on Windows 10–New Dev tools</Title>
+      <Categories>Tools</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DayEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:newtelligence-com:dasblog:runtime:data">
+  <Date>2016-09-24T17:00:00-07:00</Date>
+  <Entries>
+    <Entry>
+      <Content>&lt;p&gt;&lt;a href="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Yahoo-breach_12FDF/Wroxeter_4.jpg"&gt;&lt;figure&gt;&lt;img title="Wroxeter" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Wroxeter" src="http://www.poppastring.com/blog/content/binary/Windows-Live-Writer/Yahoo-breach_12FDF/Wroxeter_thumb_1.jpg" width="1024" height="419"&gt;&lt;/figure&gt;&lt;/a&gt;&lt;/p&gt; &lt;p&gt;I have been watching with morbid fascination the release of information &lt;a href="https://yahoo.tumblr.com/post/150781911849/an-important-message-about-yahoo-user-security"&gt;related to the Yahoo breach that may have affected half a billion accounts&lt;/a&gt;. That number is almost incomprehensible, based on the waning success of Yahoo I have to assume that number represents a very large percentage of current &lt;a href="http://www.yahoo.com"&gt;Yahoo&lt;/a&gt; users. It has also been suggested that the attack was state sponsored, in other words, some government sanctioned and funded this operation. Here is part of Yahoo’s statement:&lt;/p&gt; &lt;blockquote&gt; &lt;p&gt;&lt;em&gt;“We have confirmed that a copy of certain user account information was stolen from the company’s network in late 2014 by what it believes is a state-sponsored actor. The account information may have included names, email addresses, telephone numbers, dates of birth, hashed passwords (the vast majority with bcrypt) and, in some cases, encrypted or unencrypted security questions and answers. The ongoing investigation suggests that stolen information did not include unprotected passwords, payment card data, or bank account information; payment card data and bank account information are not stored in the system that the investigation has found to be affected. Based on the ongoing investigation, Yahoo believes that information associated with at least 500 million user accounts was stolen and the investigation has found no evidence that the state-sponsored actor is currently in Yahoo’s network. Yahoo is working closely with law enforcement on this matter.”&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt; &lt;p&gt;Yahoo is a tech giant in decline, but not too long ago they would have surely had the very best engineers in the world designing and protecting their infrastructure. The question I am asking myself now is how long before we witness a breach that exposes 25 million social security numbers? What if it’s 50 million? What would happen if this hack were performed against a password manager (like LastPass, 1Password)? Considering the vast amounts of information (including SSN) in our antiquated hospital systems, do we trust them? What kind of devastating outcomes could that have on a city, a state or even the whole country.&lt;/p&gt; &lt;p&gt;It is starting to feel like major hacks are inevitable, that given all the ways in which data is stored and accessed, and the layers through which it must pass, at some point data that we all store privately will be public.&lt;/p&gt; &lt;p&gt;I think there's a storm coming, and a few years from now we will look back aghast on how freely we shared our private information with companies incapable of handling it, we are all going to wonder how we ever assumed this laissez-faire attitude to personal identifiable information (PII) could last.&lt;/p&gt;</Content>
+      <Created>2016-09-24T20:23:01.3062514-07:00</Created>
+      <Modified>2016-10-27T17:04:52.843054-07:00</Modified>
+      <EntryId>1eb0db44-ddab-43e4-82c6-f7d6de6cab5a</EntryId>
+      <Description />
+      <Title>Yahoo breach</Title>
+      <Categories>Security</Categories>
+      <Author>admin</Author>
+      <IsPublic>true</IsPublic>
+      <Syndicated>true</Syndicated>
+      <ShowOnFrontPage>true</ShowOnFrontPage>
+      <AllowComments>true</AllowComments>
+      <Attachments />
+      <Crossposts />
+      <Latitude xsi:nil="true" />
+      <Longitude xsi:nil="true" />
+    </Entry>
+  </Entries>
+</DayEntry>
