@@ -31,31 +31,34 @@ namespace DasBlog.Web.UI.Controllers
         {
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = _blogRepository.GetFrontPagePosts()
-                                .Select(entry => new PostViewModel
-                                                    {
-                                                        Author = entry.Author,
-                                                        Content = entry.Content,
-                                                        Categories = entry.Categories,
-                                                        Description = entry.Description,
-                                                        EntryId = entry.EntryId,
-                                                        AllowComments = entry.AllowComments,
-                                                        IsPublic = entry.IsPublic,
-                                                        PermaLink = entry.Link,
-                                                        Title = entry.Title
-                                                    }).ToList();
+                            .Select(entry => new PostViewModel
+                                {
+                                    Author = entry.Author,
+                                    Content = entry.Content,
+                                    Categories = entry.Categories,
+                                    Description = entry.Description,
+                                    EntryId = entry.EntryId,
+                                    AllowComments = entry.AllowComments,
+                                    IsPublic = entry.IsPublic,
+                                    PermaLink = entry.Link,
+                                    Title = entry.Title
+                                }).ToList();
 
 
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
         }
 
-        public IActionResult Post(string postitle)
+        public IActionResult Post(string posttitle)
         {
-            // Get post by title
-
             ListPostsViewModel lpvm = new ListPostsViewModel();
-            var entry = _blogRepository.GetBlogPost(postitle);
-            lpvm.Posts = new List<PostViewModel>() {
-                new PostViewModel {
+
+            if (!string.IsNullOrEmpty(posttitle))
+            {
+                var entry = _blogRepository.GetBlogPost(posttitle);
+                if (entry != null)
+                {
+                    lpvm.Posts = new List<PostViewModel>() {
+                        new PostViewModel {
                         Author = entry.Author,
                         Content = entry.Content,
                         Categories = entry.Categories,
@@ -64,10 +67,19 @@ namespace DasBlog.Web.UI.Controllers
                         AllowComments = entry.AllowComments,
                         IsPublic = entry.IsPublic,
                         PermaLink = entry.Link,
-                        Title = entry.Title
-                } };
+                        Title = entry.Title}};
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+                    return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            else
+            {
+                return Index();
+            }
         }
 
         [Route("comment/{Id:guid}")]
@@ -99,10 +111,21 @@ namespace DasBlog.Web.UI.Controllers
             return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lvpm);
         }
 
+        [Route("page")]
+        public IActionResult Page()
+        {
+            return Index();
+        }
+
         [Route("page/{index:int}")]
         public IActionResult Page(int index)
         {
-            ViewData["Message"] = string.Format("Page...{0}",index);
+            if (index == 0)
+            {
+                return Index();
+            }
+
+            ViewData["Message"] = string.Format("Page...{0}", index);
 
             ListPostsViewModel lpvm = new ListPostsViewModel();
             lpvm.Posts = _blogRepository.GetEntriesForPage(index)

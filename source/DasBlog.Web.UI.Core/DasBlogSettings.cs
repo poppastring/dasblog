@@ -14,7 +14,7 @@ namespace DasBlog.Web.UI.Core
             AdjustDisplayTimeZone = false;
             DisplayTimeZoneIndex = 3;
             FrontPageDayCount = 200;
-            FrontPageEntryCount = 200;
+            FrontPageEntryCount = 3;
             EntriesPerPage = 5;
         }
 

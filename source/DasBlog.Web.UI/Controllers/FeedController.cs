@@ -10,8 +10,7 @@ namespace DasBlog.Web.UI.Controllers
     {
         public IActionResult Index()
         {
-            // rss
-            return View();
+            return Rss();
         }
 
         public IActionResult Rss()

@@ -75,6 +75,18 @@ namespace DasBlog.Web.UI
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    "Original Post Format",
+                    "{posttitle}.aspx",                           
+                    new { controller = "Home", action = "Post", posttitle = "" });
+
+                routes.MapRoute(
+                    "New Post Format",
+                    "{posttitle}",
+                    new { controller = "Home", action = "Post", id = "" });
+
+
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
