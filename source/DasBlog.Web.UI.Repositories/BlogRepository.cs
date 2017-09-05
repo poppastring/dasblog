@@ -17,8 +17,8 @@ namespace DasBlog.Web.UI.Repositories
         public BlogRepository(IDasBlogSettings settings)
         {
             _dasBlogSettings = settings;
-            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootPath + _dasBlogSettings.LogsDirectory);
-            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootPath + _dasBlogSettings.ContentDirectory, _loggingDataService);
+            _loggingDataService = LoggingDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.LogDir);
+            _dataService = BlogDataServiceFactory.GetService(_dasBlogSettings.WebRootDirectory + _dasBlogSettings.SiteConfiguration.ContentDir, _loggingDataService);
         }
 
         public Entry GetBlogPost(string postid)
@@ -33,11 +33,11 @@ namespace DasBlog.Web.UI.Repositories
 
             //Need to insert the Request.Headers["Accept-Language"];
             string languageFilter = "en-US"; // Request.Headers["Accept-Language"];
-            fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.ContentLookAheadDays);
+            fpDayUtc = DateTime.UtcNow.AddDays(_dasBlogSettings.SiteConfiguration.ContentLookaheadDays);
 
-            if (_dasBlogSettings.AdjustDisplayTimeZone)
+            if (_dasBlogSettings.SiteConfiguration.AdjustDisplayTimeZone)
             {
-                tz = WindowsTimeZone.TimeZones.GetByZoneIndex(_dasBlogSettings.DisplayTimeZoneIndex);
+                tz = WindowsTimeZone.TimeZones.GetByZoneIndex(_dasBlogSettings.SiteConfiguration.DisplayTimeZoneIndex);
             }
             else
             {
@@ -46,7 +46,7 @@ namespace DasBlog.Web.UI.Repositories
 
             return _dataService.GetEntriesForDay(fpDayUtc, TimeZone.CurrentTimeZone,
                                 languageFilter,
-                                _dasBlogSettings.FrontPageDayCount, _dasBlogSettings.FrontPageEntryCount, string.Empty);
+                                _dasBlogSettings.SiteConfiguration.FrontPageDayCount, _dasBlogSettings.SiteConfiguration.FrontPageEntryCount, string.Empty);
         }
 
         public EntryCollection GetEntriesForPage(int pageIndex)
@@ -61,7 +61,7 @@ namespace DasBlog.Web.UI.Repositories
 
             cache.RemoveRange(0, fp.Count);
 
-            int entriesPerPage = _dasBlogSettings.EntriesPerPage;
+            int entriesPerPage = _dasBlogSettings.SiteConfiguration.EntriesPerPage;
 
             // compensate for frontpage
             if ((pageIndex - 1) * entriesPerPage < cache.Count)

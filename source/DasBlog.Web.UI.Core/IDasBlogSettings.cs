@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DasBlog.Web.UI.Core.Configuration;
+using newtelligence.DasBlog.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,15 +8,17 @@ namespace DasBlog.Web.UI.Core
 {
     public interface IDasBlogSettings
     {
-        string Theme { get; }
-        string LogsDirectory { get; }
-        string WebRootPath { get; }
-        string ContentDirectory { get; }
-        int ContentLookAheadDays { get; }
-        bool AdjustDisplayTimeZone { get; }
-        int DisplayTimeZoneIndex { get; }
-        int FrontPageDayCount { get; }
-        int FrontPageEntryCount { get; }
-        int EntriesPerPage { get; }
+        ISiteConfig SiteConfiguration { get; }
+        IMetaTags MetaTags { get; }
+        ISiteSecurityConfig SecurityConfiguration { get; }
+        string WebRootDirectory { get; }
+
+        string RelativeToRoot(string relative);
+        string GetBaseUrl();
+        string GetPermaLinkUrl(string entryId);
+        string GetTrackbackUrl(string entryId);
+        string GetEntryCommentsRssUrl(string entryId);
+        string GetCommentViewUrl(string entryId);
+        User GetUser(string userName);
     }
 }

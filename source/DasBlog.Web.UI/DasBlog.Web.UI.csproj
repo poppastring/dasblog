@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Config\metaConfig.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +25,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\logs\" />
     <Folder Include="wwwroot\content\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Config\site.config" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,78 @@
+﻿using DasBlog.Web.UI.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DasBlog.Web.UI.Core.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
+using newtelligence.DasBlog.Runtime;
+
+namespace DasBlog.Web.UI.Settings
+{
+    public class DasBlogSettings : IDasBlogSettings
+    {
+        public DasBlogSettings(IHostingEnvironment env, IOptions<SiteConfig> siteConfig, IOptions<MetaTags> metaTagsConfig, 
+            IOptions<SiteSecurityConfig> siteSecurityConfig)
+        {
+            this.WebRootDirectory = env.WebRootPath;
+            this.SiteConfiguration = siteConfig.Value;
+            this.MetaTags = metaTagsConfig.Value;
+            this.SecurityConfiguration = siteSecurityConfig.Value;
+        }
+
+        public string WebRootDirectory { get; }
+
+        public IMetaTags MetaTags { get; }
+
+        public ISiteConfig SiteConfiguration { get; }
+
+        public ISiteSecurityConfig SecurityConfiguration { get; }
+
+        public string GetBaseUrl()
+        {
+            return new Uri(this.SiteConfiguration.Root).AbsoluteUri;
+        }
+
+        public string RelativeToRoot(string relative)
+        {
+            return new Uri(new Uri(this.SiteConfiguration.Root), relative).AbsoluteUri;
+        }
+
+        public string GetPermaLinkUrl(string entryId)
+        {
+            //TODO: Old links vs new links
+            return RelativeToRoot("post/" + entryId);
+        }
+
+        public string GetCommentViewUrl(string entryId)
+        {
+            //TODO: Old links vs new links
+            return RelativeToRoot("comment/" + entryId);
+        }
+
+        public string GetTrackbackUrl(string entryId)
+        {
+            //TODO: Old links vs new links
+            return RelativeToRoot("trackback/" + entryId);
+        }
+
+        public string GetEntryCommentsRssUrl(string entryId)
+        {
+            //TODO: Old links vs new links
+            return RelativeToRoot("feed/rss/comments/" + entryId);
+        }
+
+        public User GetUser(string userName)
+        {
+            if (false == String.IsNullOrEmpty(userName))
+            {
+                return this.SecurityConfiguration.Users.Find(delegate (User x)
+                {
+                    return String.Compare(x.Name, userName, StringComparison.InvariantCultureIgnoreCase) == 0;
+                });
+            }
+            return null;
+        }
+    }
+}

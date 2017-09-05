@@ -1,4 +1,5 @@
-﻿using newtelligence.DasBlog.Web.Services.Rss20;
+﻿using newtelligence.DasBlog.Runtime;
+using newtelligence.DasBlog.Web.Services.Rss20;
 using System;
 using System.Collections.Generic;
 using System.Text;

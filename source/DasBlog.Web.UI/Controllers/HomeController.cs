@@ -13,6 +13,7 @@ using DasBlog.Web.UI.Core;
 using DasBlog.Web.UI.Repositories.Interfaces;
 using newtelligence.DasBlog.Util;
 using Microsoft.Extensions.FileProviders;
+using DasBlog.Web.UI.Core.Configuration;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -45,7 +46,7 @@ namespace DasBlog.Web.UI.Controllers
                                 }).ToList();
 
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
 
         public IActionResult Post(string posttitle)
@@ -69,7 +70,7 @@ namespace DasBlog.Web.UI.Controllers
                         PermaLink = entry.Link,
                         Title = entry.Title}};
 
-                    return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+                    return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
                 }
                 else
                 {
@@ -108,7 +109,7 @@ namespace DasBlog.Web.UI.Controllers
 
             ViewData["Message"] = "Comment...";
             
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lvpm);
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lvpm);
         }
 
         [Route("page")]
@@ -142,7 +143,7 @@ namespace DasBlog.Web.UI.Controllers
                                     Title = entry.Title
                                 }).ToList();
 
-            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.Theme), lpvm);
+            return View(string.Format("/Themes/{0}/Page.cshtml", _dasBlogSettings.SiteConfiguration.Theme), lpvm);
         }
 
         public IActionResult About()
