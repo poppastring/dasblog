@@ -11,6 +11,7 @@ using newtelligence.DasBlog.Web.Services.Rss20;
 namespace DasBlog.Web.UI.Controllers
 {
     [Produces("text/xml")]
+    [Route("feed")]
     public class FeedController : Controller
     {
         private IMemoryCache _cache;
@@ -23,11 +24,9 @@ namespace DasBlog.Web.UI.Controllers
             _cache = memoryCache;
         }
 
-        public IActionResult Index()
-        {
-            return Rss();
-        }
-
+        [HttpGet]
+        [Route("")]
+        [Route("rss")]
         public IActionResult Rss()
         {
             RssRoot rss = null; 
@@ -41,10 +40,11 @@ namespace DasBlog.Web.UI.Controllers
                 _cache.Set(RSS_CACHE_KEY, rss, cacheEntryOptions);
             }
 
-            return View("Cache", rss);
+            return Ok(rss);
         }
 
-        public IActionResult Rss(string category)
+        [HttpGet("rss/{category}")]
+        public IActionResult RssByCategory(string category)
         {
             RssRoot rss = null;
 
@@ -57,7 +57,7 @@ namespace DasBlog.Web.UI.Controllers
                 _cache.Set(RSS_CACHE_KEY + "_" + category, rss, cacheEntryOptions);
             }
 
-            return View("Cache", rss);
+            return Ok(rss);
         }
 
         public IActionResult Atom()

@@ -66,6 +66,7 @@ namespace DasBlog.Web.UI
                         provider.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddMvc();
+            services.AddMvc().AddXmlSerializerFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
