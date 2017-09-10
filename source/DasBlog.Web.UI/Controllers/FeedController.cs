@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using DasBlog.Web.UI.Repositories.Interfaces;
 using newtelligence.DasBlog.Web.Services.Rss20;
+using Microsoft.AspNetCore.Http;
 
 namespace DasBlog.Web.UI.Controllers
 {
@@ -18,8 +19,8 @@ namespace DasBlog.Web.UI.Controllers
         private ISubscriptionRepository _subscriptionRepository;
         private const string RSS_CACHE_KEY = "RSS_CACHE_KEY";
 
-        public FeedController(ISubscriptionRepository subscriptionRepository, IMemoryCache memoryCache)
-        {
+        public FeedController(ISubscriptionRepository subscriptionRepository, IHttpContextAccessor httpContextAccessor, IMemoryCache memoryCache)
+        {  
             _subscriptionRepository = subscriptionRepository;
             _cache = memoryCache;
         }
@@ -62,17 +63,17 @@ namespace DasBlog.Web.UI.Controllers
 
         public IActionResult Atom()
         {
-            return View();
+            return NoContent();
         }
 
         public IActionResult Atom(string category)
         {
-            return View();
+            return NoContent();
         }
 
         public ActionResult Rsd()
         {
-            return View();
+            return NoContent();
         }
     }
 }

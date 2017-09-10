@@ -83,7 +83,6 @@ namespace DasBlog.Web.UI.Repositories
                     Int32.MaxValue);
             }
 
-            // The page index is out of range (i.e. too large).
             return new EntryCollection();
         }
 

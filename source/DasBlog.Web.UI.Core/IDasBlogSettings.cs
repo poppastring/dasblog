@@ -1,5 +1,6 @@
 ﻿using DasBlog.Web.UI.Core.Configuration;
 using newtelligence.DasBlog.Runtime;
+using newtelligence.DasBlog.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,8 @@ namespace DasBlog.Web.UI.Core
         string GetTrackbackUrl(string entryId);
         string GetEntryCommentsRssUrl(string entryId);
         string GetCommentViewUrl(string entryId);
+        string GetCategoryViewUrl(string category);
         User GetUser(string userName);
+        TimeZone GetConfiguredTimeZone();
     }
 }

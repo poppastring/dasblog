@@ -188,69 +188,6 @@ namespace newtelligence.DasBlog.Runtime
             //return theCache.GetEntries();
         }
 
-
-        //private void InitCache(){
-        //    lock (cacheLock) {
-        //        if (theCache == null || theCache.ChangeNumber != data.CurrentEntryChangeCount) {
-        //            EntryIdCache ecache = new EntryIdCache();
-        //            ecache.Ensure(data);
-
-        //            theCache = ecache;
-        //        }
-        //    }
-        //}
-
- /*
-        [Obsolete("Use GetEntries(false).")]
-        EntryIdCache GetEntryIdCache()
-        {
-
-            lock (_onlyEntryIdCacheOfOnlyPublicEntriesLock)
-            {
-                if (theCache == null || theCache.ChangeNumber != data.CurrentEntryChangeCount) {
-
-                    //			EntryIdCache ecache = new EntryIdCache();
-                    //			ecache.Ensure(data);
-                    //			return ecache;
-                    EntryIdCache ecache = new EntryIdCache();
-                    ecache.Ensure(data);
-
-                    theCache = ecache;
-                }
-                
-
-                // Overly complicated:  
-                // We save (cache) the EntryIdCache and use the saved version
-                // if not the admin and the ChangeNumber hasn't changed.
-                if (!Thread.CurrentPrincipal.IsInRole("admin"))
-                {
-                    if (_onlyEntryIdCacheOfOnlyPublicEntries == null ||
-                        (_onlyEntryIdCacheOfOnlyPublicEntries.ChangeNumber != ecache.ChangeNumber))
-                    {
-                        EntryIdCacheEntryCollection entryCacheCollection = new EntryIdCacheEntryCollection();
-                        foreach (EntryIdCacheEntry entryIdCacheEntry in ecache.Entries)
-                        {
-                            if (entryIdCacheEntry.IsPublic)
-                            {
-                                entryCacheCollection.Add(entryIdCacheEntry);
-                            }
-                        }
-                        ecache.Entries = entryCacheCollection;
-                        _onlyEntryIdCacheOfOnlyPublicEntries = ecache;
-                    }
-                    else
-                    {
-                        // Since change numbers are the same return the saved (cached) version.
-                        ecache = _onlyEntryIdCacheOfOnlyPublicEntries;
-                    }
-                }
- 
-                return theCache;
- 
-            }
- 
-        }
-*/
         protected DateTime GetDateForEntry(string entryId)
         {
             if (String.IsNullOrEmpty(entryId))
@@ -1407,7 +1344,7 @@ namespace newtelligence.DasBlog.Runtime
             CategoryCacheEntryCollection result;
             CategoryCache cache = new CategoryCache();
             cache.Ensure(data);
-            if (Thread.CurrentPrincipal.IsInRole("admin"))
+            if (Thread.CurrentPrincipal != null && Thread.CurrentPrincipal.IsInRole("admin"))
             {
                 result = cache.Entries;
             }

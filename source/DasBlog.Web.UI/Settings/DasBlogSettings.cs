@@ -7,6 +7,8 @@ using DasBlog.Web.UI.Core.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Hosting;
 using newtelligence.DasBlog.Runtime;
+using newtelligence.DasBlog.Util;
+using System.Collections.ObjectModel;
 
 namespace DasBlog.Web.UI.Settings
 {
@@ -63,6 +65,11 @@ namespace DasBlog.Web.UI.Settings
             return RelativeToRoot("feed/rss/comments/" + entryId);
         }
 
+        public string GetCategoryViewUrl(string category)
+        {
+            return RelativeToRoot("category/" + category);
+        }
+
         public User GetUser(string userName)
         {
             if (false == String.IsNullOrEmpty(userName))
@@ -73,6 +80,17 @@ namespace DasBlog.Web.UI.Settings
                 });
             }
             return null;
+        }
+
+        public TimeZone GetConfiguredTimeZone()
+        {
+            // Need to figure out how to handle time...
+            return new UTCTimeZone();
+
+            //if (SiteConfiguration.AdjustDisplayTimeZone)
+            //{
+            //    return TimeZone.CurrentTimeZone as WindowsTimeZone;
+            //}
         }
     }
 }
