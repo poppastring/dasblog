@@ -1430,20 +1430,20 @@ namespace newtelligence.DasBlog.Web.Core
                     //themes = ConfigurationSettings.GetConfig("newtelligence.DasBlog.Themes") as ThemeDictionary;
                     
 					//Are we on a Mobile Device? See if we have a mobile theme and use it instead.
-					System.Web.Mobile.MobileCapabilities mobile = (System.Web.Mobile.MobileCapabilities)Request.Browser;
-					if(mobile.IsMobileDevice == true)
-					{
-						if(themes.TryGetValue("mobile", out blogTheme) == false )
-						{
-							loggingService.AddEvent(new EventDataItem(EventCodes.Error,
-								String.Format("If you have a theme called 'mobile' in your themes folder, readers who visit your site via a Mobile Device will automatically get that theme. User-Agent: {0}",Request.UserAgent),
-								String.Empty));
-						}
-						else 
-						{
-							return blogTheme;
-						}
-					}
+					//System.Web.Mobile.MobileCapabilities mobile = (System.Web.Mobile.MobileCapabilities)Request.Browser;
+					//if(mobile.IsMobileDevice == true)
+					//{
+					//	if(themes.TryGetValue("mobile", out blogTheme) == false )
+					//	{
+					//		loggingService.AddEvent(new EventDataItem(EventCodes.Error,
+					//			String.Format("If you have a theme called 'mobile' in your themes folder, readers who visit your site via a Mobile Device will automatically get that theme. User-Agent: {0}",Request.UserAgent),
+					//			String.Empty));
+					//	}
+					//	else 
+					//	{
+					//		return blogTheme;
+					//	}
+					//}
 
 
                     //TODO: Test this
