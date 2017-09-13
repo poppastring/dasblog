@@ -120,11 +120,6 @@
       <Project>{15C1672E-92A2-4FAF-977A-D7EBC008EC42}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\DasBlog.Import.csproj">
-      <Name>DasBlog.Import</Name>
-      <Project>{D8C2871A-3821-441C-A8F6-F265B18282D5}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
